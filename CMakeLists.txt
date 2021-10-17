@@ -3,132 +3,79 @@
 ## Copyright:
 ## License:     wxWidgets License
 ##---------------------------------------------------------------------------
-## ----- When changing this file do NOT change the order in which sections occur        ----- ##
-## ----- Changes should only be made between the section blocks that identify where     ----- ##
-## ----- these changes should be. The whole configuration process relies on this        ----- ##
-## ----- sequence to be successful                                                      ----- ##
-##
 
-##
-## ----- Modify section below to include all the details for your plugin ----- ##
-##
 
-set(CMLOC "CMakeLists: ")
-
-# define minimum cmake version
-cmake_minimum_required(VERSION 3.1.1)
-if(COMMAND cmake_policy)
-    if(POLICY CMP0043)
-        cmake_policy(SET CMP0043 NEW)
-    endif(POLICY CMP0043)
-    cmake_policy(SET CMP0048 NEW)
-    if(POLICY CMP0077)
-        cmake_policy(SET CMP0077 NEW)
-    endif(POLICY CMP0077)
-endif(COMMAND cmake_policy)
-
-# define plugin name, owner and versions
-
-SET(VERBOSE_NAME "oplaydo2_pi")
-SET(COMMON_NAME "oplaydo2")
-SET(TITLE_NAME "oplaydo2")
-SET(PACKAGE_CONTACT "Rasbats")
-SET(PACKAGE "oplaydo2")
-
-SET(VERSION_MAJOR "3")
-SET(VERSION_MINOR "1")
-
-set(VERSION_PATCH "1")
-set(VERSION_TWEAK "3")
-set(VERSION_DATE "04/07/2020")
-set(OCPN_MIN_VERSION "ov50")
-set(OCPN_API_VERSION_MAJOR "1")
-set(OCPN_API_VERSION_MINOR "16")
-set(TP_COMMENT "  * Release for O5 using CI")
-
-set(PARENT "opencpn")
+# -------- Cmake setup ---------
 #
-#
-#
-#
-#
-#
-#
-# The next line allows for setting up your own local webserver with git on it for testing purposes, the default is github.com
-set(GIT_REPOSITORY_SERVER "github.com")
+cmake_minimum_required(VERSION 3.12.0)
 
-# Specifies cloudsmith repository sufficies
-set(PROD "prod") # Standard Repos
-set(BETA "beta") # Standard Repos
-set(ALPHA "alpha") # Standard Repos
+cmake_policy(SET CMP0042 NEW)
 
-set(CLOUDSMITH_USER "mike-rossiter")
-# set this if your cloudsmith repository name does not match your git repository name set(CLOUDSMITH_BASE_REPOSITORY "sar")
-set(CLOUDSMITH_BASE_REPOSITORY "oplaydo2")
+if (POLICY CMP0072)
+  cmake_policy(SET CMP0072 NEW)
+endif ()
 
-set(XML_INFO_URL "https://opencpn.org/wiki/dokuwiki/doku.php?id=opencpn:opencpn_user_manual:plugins:navigation:dead_reckoning")
-set(XML_SUMMARY "Plugin to make GPX files for dead reckoning positions")
-set(XML_DESCRIPTION "oplaydo2 creates GPX files for dead reckoning positions")
+if (POLICY CMP0077)
+  cmake_policy(SET CMP0077 NEW)
+endif ()
 
-##
-## ----- Modify section above to include all the details for your plugin ----- ##
-##
-##
-## ----- Modify section below if there are special requirements for the plugin ----- ##
-##
+# Locations where cmake looks for cmake modules.
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/build ${CMAKE_SOURCE_DIR}/cmake)
 
-OPTION(oplaydo2_USE_SVG "Use SVG graphics" ON)
+if (WIN32)
+  list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/buildwin)
+endif ()
+message(STATUS "Cmake version: ${CMAKE_VERSION}.")
 
+
+# -------- Build setup (mostly in PluginCompiler) --------
+#
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Prefer libGL.so to libOpenGL.so, see CMP0072
-###set(OpenGL_GL_PREFERENCE "LEGACY")
-# Don't use local version of GLU library
-###set(USE_LOCAL_GLU FALSE)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+message(STATUS "Building: ${BUILD_TYPE}")
 
-if("${CMAKE_BUILD_TYPE}" STREQUAL "")
-    set(CMAKE_BUILD_TYPE
-        "Release"
-        CACHE STRING "Choose the type of build" FORCE)
-endif("${CMAKE_BUILD_TYPE}" STREQUAL "")
-set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "" "Debug" "Release" "RelWithDebInfo" "MinSizeRel")
-message(STATUS "${CMLOC}Build type: ${CMAKE_BUILD_TYPE}")
+# -------- Options ----------
 
-##
-## ----- The statements below are used to setup standard variables that are required by the CMAKE process - do not remove ----- ##
-##
-project(${PACKAGE})
 
-include("cmake/PluginSetup.cmake")
+set(OCPN_TEST_REPO
+    "miker-rossiter/oplaydo2-alpha"
+    CACHE STRING "Default repository for untagged builds"
+)
+set(OCPN_BETA_REPO
+    "miker-rossiter/oplaydo2-beta"
+    CACHE STRING 
+    "Default repository for tagged builds matching 'beta'"
+)
+set(OCPN_RELEASE_REPO
+    "miker-rossiter/oplaydo2-prod"
+    CACHE STRING 
+    "Default repository for tagged builds not matching 'beta'"
+)
+option(oplaydo2_USE_SVG "Use SVG graphics" ON)
 
-##
-## ----- The above is used to setup standard variables that are required by the CMAKE process - do not remove ----- ##
-##
-
-##
-## ----- Modify section below if there are special requirements for the plugin ----- ##
-##
-
-set(CMAKE_VERBOSE_MAKEFILE ON)
-option(Plugin_CXX11 "Use c++11" OFF)
-
-##
-## ----- Modify section above if there are special requirements for the plugin ----- ##
-##
-
-##
-## ----- do not change next section - needed to configure build process ----- ##
-##
-
-include("cmake/PluginConfigure.cmake")
-
-##
-## ----- do not change section above - needed to configure build process ----- ##
-##
-
+include(PluginOptions)
 #
-# ----- Change below to match project requirements for source, headers, etc. ----- ##
 #
+# -------  Plugin setup --------
+#
+project(oplaydo2_pi VERSION 0.0.0.1)
+set(PKG_PRERELEASE "")  # Empty, or a tag like 'beta'
+
+set(DISPLAY_NAME oplaydo2)    # Dialogs, installer artifacts, ...
+set(PLUGIN_API_NAME oplaydo2) # As of GetCommonName() in plugin API
+set(CPACK_PACKAGE_CONTACT "Mike Rossiter")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Simple plugin")
+set(CPACK_PACKAGE_DESCRIPTION [=[
+Simple plugin to test Android builds
+]=])
+
+set(PKG_AUTHOR "Mike Rossiter")
+set(PKG_IS_OPEN_SOURCE "yes")
+set(CPACK_PACKAGE_HOMEPAGE_URL https://github.com/Rasbats/oplaydo2_pi)
+set(PKG_INFO_URL https://opencpn.org/OpenCPN/plugins/oplaydo2.html)
 
 SET(SRC_oplaydo2
         src/oplaydo2_pi.h
@@ -148,24 +95,86 @@ SET(SRC_oplaydo2
         src/tinyxml.h
 	)
 
+# -------- Setup completed, build the plugin --------
+#
+add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC})
+include_directories(BEFORE ${CMAKE_BINARY_DIR}/include)
 
-ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_oplaydo2})
+add_subdirectory("libs/api-16")
+target_link_libraries(${CMAKE_PROJECT_NAME} ocpn::api)
 
-ADD_DEFINITIONS(-Doplaydo2_USE_SVG)
-ADD_DEFINITIONS(-DTIXML_USE_STL)
+set(VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(VERSION_MINOR ${PROJECT_VERSION_MINOR})
+set(VERSION_PATCH ${PROJECT_VERSION_PATCH})
 
-##
-## ----- Change above to match project requirements ----- ##
-##
+set(PACKAGE_NAME ${CMAKE_PROJECT_NAME})
 
-##
-## ----- do not change next section - needed to configure build process ----- ##
-##
+# Create the minimim ocpn version id string like ov50
+string(REGEX REPLACE "\([0-9]\)\.\([0-9]\).*" "ov\\1\\2"
+       OCPN_MIN_VERSION ${API_OCPN_MIN_VERSION})
 
-include("cmake/PluginInstall.cmake")
-include("cmake/PluginLocalization.cmake")
-include("cmake/PluginPackage.cmake")
+if (oplaydo2_USE_SVG)
+  add_definitions(-Doplaydo2_USE_SVG)
+endif ()
 
-##
-## ----- do not change section above - needed to configure build process ----- ##
-##
+# Set up targets. Targets sets up a recursive call with BUILD_TYPE set to
+# 'flatpak', 'pkg' or 'tarball'. The initial call without BUILD_TYPE ends
+# here.
+#
+include(Targets)
+create_targets(
+  ${PROJECT_SOURCE_DIR}/flatpak/org.opencpn.OpenCPN.Plugin.oplaydo2.yaml
+)
+if ("${BUILD_TYPE}" STREQUAL "")
+  return ()
+endif ()
+
+if (NOT ${BUILD_TYPE} STREQUAL "flatpak")
+  # Build package as required (flatpak already dealt with).
+  #
+  include(PluginCompiler)
+  include(PluginInstall)
+  include(PluginPackage)
+  if (QT_ANDROID)
+    include(AndroidLibs)
+  else ()
+    include(PluginLibs)
+  endif ()
+  include(PluginLocalization)
+
+  include_directories(BEFORE ${CMAKE_BINARY_DIR}/include)
+
+  add_subdirectory("libs/jsoncpp")
+  target_link_libraries(${PACKAGE_NAME} ocpn::jsoncpp)
+  
+  add_subdirectory("libs/tinyxml")
+  target_link_libraries(${PACKAGE_NAME} ocpn::tinyxml)
+  
+  add_subdirectory("libs/wxJSON")
+  target_link_libraries(${PACKAGE_NAME} ocpn::wxjson)
+endif ()
+
+configure_file(
+  ${CMAKE_SOURCE_DIR}/config.h.in ${CMAKE_BINARY_DIR}/include//config.h
+  @ONLY
+)
+
+configure_file(
+  # The cloudsmith upload script
+  ${CMAKE_SOURCE_DIR}/ci/upload.sh.in ${CMAKE_BINARY_DIR}/upload.sh
+  @ONLY
+)
+configure_file(
+  # The cloudsmith upload script, windows bat file.
+  ${CMAKE_SOURCE_DIR}/ci/upload.bat.in ${CMAKE_BINARY_DIR}/upload.bat
+  @ONLY
+)
+
+
+set(checksum "@checksum@")
+configure_file(
+  # The XML metadata file
+  ${CMAKE_SOURCE_DIR}/plugin.xml.in
+  ${CMAKE_BINARY_DIR}/${pkg_displayname}.xml.in
+  @ONLY
+)
