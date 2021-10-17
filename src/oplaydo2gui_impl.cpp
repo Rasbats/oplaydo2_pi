@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Project:  OpenCPN
- * Purpose:  DR Plugin
+ * Purpose:  oplaydo2 Plugin
  * Author:   Mike Rossiter
  *
  ***************************************************************************
@@ -25,9 +25,9 @@
  ***************************************************************************
  */
 
-#include "DRgui_impl.h"
-#include "DRgui.h"
-#include "DR_pi.h"
+#include "oplaydo2gui_impl.h"
+#include "oplaydo2gui.h"
+#include "oplaydo2_pi.h"
 #include "icons.h"
 
 #include <wx/progdlg.h>
@@ -39,7 +39,7 @@
 
 #define FAIL(X) do { error = X; goto failed; } while(0)
 
-Dlg::Dlg(wxWindow *parent, DR_pi *ppi)
+Dlg::Dlg(wxWindow *parent, oplaydo2_pi *ppi)
 	: m_Dialog(parent)
 {
 	this->Fit();
@@ -49,7 +49,7 @@ Dlg::Dlg(wxWindow *parent, DR_pi *ppi)
 	pParent = parent;
 
 	wxString blank_name = *GetpSharedDataLocation()
-		+ _T("plugins/DR_pi/data/blank.ico");
+		+ _T("plugins/oplaydo2_pi/data/blank.ico");
 
 	wxIcon icon(blank_name, wxBITMAP_TYPE_ICO);
 	SetIcon(icon);
@@ -92,7 +92,7 @@ void Dlg::OnPSGPX( wxCommandEvent& event )
 
 void Dlg::OnClose(wxCloseEvent& event)
 {	
-	pPlugIn->OnDRDialogClose();
+	pPlugIn->Onoplaydo2DialogClose();
 }
 
 bool Dlg::OpenXML()
@@ -178,7 +178,7 @@ bool Dlg::OpenXML()
 failed:
     delete progressdialog;
 
-    wxMessageDialog mdlg(this, error, _("DR"), wxOK | wxICON_ERROR);
+    wxMessageDialog mdlg(this, error, _("oplaydo2"), wxOK | wxICON_ERROR);
     mdlg.ShowModal();
 
     return false;
@@ -209,7 +209,7 @@ void Dlg::Calculate( wxCommandEvent& event, bool write_file, int Pattern  ){
     //error_occured=false;
     wxString s;
     if (write_file){
-        wxFileDialog dlg(this, _("Export DR Positions in GPX file as"), wxEmptyString, defaultFileName, _T("GPX files (*.gpx)|*.gpx|All files (*.*)|*.*"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+        wxFileDialog dlg(this, _("Export oplaydo2 Positions in GPX file as"), wxEmptyString, defaultFileName, _T("GPX files (*.gpx)|*.gpx|All files (*.*)|*.*"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
         if (dlg.ShowModal() == wxID_CANCEL){
             error_occured=true;     // the user changed idea...
 		    return;
@@ -242,7 +242,7 @@ void Dlg::Calculate( wxCommandEvent& event, bool write_file, int Pattern  ){
     if (write_file){
         doc.LinkEndChild( root );
         root->SetAttribute("version", "0.1");
-        root->SetAttribute("creator", "DR_pi by Rasbats");
+        root->SetAttribute("creator", "oplaydo2_pi by Rasbats");
         root->SetAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
         root->SetAttribute("xmlns:gpxx","http://www.garmin.com/xmlschemas/GpxExtensions/v3" );
         root->SetAttribute("xsi:schemaLocation", "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd");
@@ -273,7 +273,7 @@ void Dlg::Calculate( wxCommandEvent& event, bool write_file, int Pattern  ){
     switch ( Pattern ) {
     case 1:
         {		
-        if (dbg) cout<<"DR Calculation\n";      
+        if (dbg) cout<<"oplaydo2 Calculation\n";      
         double speed=5;
 		int    interval=1;
         		
@@ -350,15 +350,15 @@ void Dlg::Calculate( wxCommandEvent& event, bool write_file, int Pattern  ){
 
 			if (total_dist > speed){	
 				//
-				// DR point is before the next route point
+				// oplaydo2 point is before the next route point
 				//
-				route_dist = total_dist - myDist;	// route_dist is the distance between the previous DR and the route point
-				remaining_dist = speed - route_dist;// distance between route point and next DR
+				route_dist = total_dist - myDist;	// route_dist is the distance between the previous oplaydo2 and the route point
+				remaining_dist = speed - route_dist;// distance between route point and next oplaydo2
 
 				DistanceBearingMercator(latN[i + 1], lonN[i + 1], latN[i], lonN[i], &myDist, &myBrng);
 				destLoxodrome(latN[i], lonN[i], myBrng, remaining_dist, &lati, &loni);
 
-				// Put in the DR point after the route point
+				// Put in the oplaydo2 point after the route point
 				my_point.lat = wxString::Format(wxT("%f"), lati);
 				my_point.lon = wxString::Format(wxT("%f"), loni);
 				my_point.routepoint = 0;
@@ -376,7 +376,7 @@ void Dlg::Calculate( wxCommandEvent& event, bool write_file, int Pattern  ){
 				if (myDistForBrng > speed) {
 					// 
 					//
-					// put in the DR positions
+					// put in the oplaydo2 positions
 					//
 					count_pts = (int)floor(myDistForBrng / speed);
 					//
@@ -399,12 +399,12 @@ void Dlg::Calculate( wxCommandEvent& event, bool write_file, int Pattern  ){
 					total_dist = 0;
 					//
 					//
-					// All the DR positions inserted for this leg
+					// All the oplaydo2 positions inserted for this leg
 				}
 
 				if (total_dist == 0) {
 					DistanceBearingMercator(latN[i + 1], lonN[i + 1], latF, lonF, &myDistForBrng, &myBrng);
-					total_dist = myDistForBrng; // distance between DR and the next route point
+					total_dist = myDistForBrng; // distance between oplaydo2 and the next route point
 					latF = latN[i + 1];
 					lonF = lonN[i + 1];
 				}
@@ -445,7 +445,7 @@ void Dlg::Calculate( wxCommandEvent& event, bool write_file, int Pattern  ){
 		}
 		else{
 			if ((*itOut).routepoint == 0){
-				if (write_file){Addpoint(Route, wxString::Format(wxT("%f"),lati), wxString::Format(wxT("%f"),loni), _T("DR") ,_T("square"),_T("WPT"));}			
+				if (write_file){Addpoint(Route, wxString::Format(wxT("%f"),lati), wxString::Format(wxT("%f"),loni), _T("oplaydo2") ,_T("square"),_T("WPT"));}			
 			}
 		}
         

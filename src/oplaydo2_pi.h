@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Project:  OpenCPN
- * Purpose:  DR Plugin
+ * Purpose:  oplaydo2 Plugin
  * Author:   Mike Rossiter
  *
  ***************************************************************************
@@ -38,8 +38,8 @@
 #include <wx/fileconf.h>
 
 #include "ocpn_plugin.h" //Required for OCPN plugin functions
-#include "DRgui_impl.h"
-#include "DRgui.h"
+#include "oplaydo2gui_impl.h"
+#include "oplaydo2gui.h"
 
 #include "version.h"
 
@@ -51,11 +51,11 @@
 
 class Dlg;
 
-class DR_pi : public opencpn_plugin_116
+class oplaydo2_pi : public opencpn_plugin_116
 {
 public:
-      DR_pi(void *ppimgr);
-	   ~DR_pi(void);
+      oplaydo2_pi(void *ppimgr);
+	   ~oplaydo2_pi(void);
 
 //    The required PlugIn Methods
       int Init(void);
@@ -86,7 +86,7 @@ public:
       void SetCalculatorDialogY         (int x){ m_route_dialog_y = x;};
       void SetCalculatorDialogWidth     (int x){ m_route_dialog_width = x;};
       void SetCalculatorDialogHeight    (int x){ m_route_dialog_height = x;};      
-	  void OnDRDialogClose();
+	  void Onoplaydo2DialogClose();
 
 	  wxWindow         *m_parent_window;
 	  
@@ -104,8 +104,8 @@ private:
       bool              m_ShowHelp,m_bCaptureCursor,m_bCaptureShip;
       double m_ship_lon,m_ship_lat,m_cursor_lon,m_cursor_lat;
 
-	  bool             m_bDRShowIcon;
-	  bool             m_bShowDR;
+	  bool             m_boplaydo2ShowIcon;
+	  bool             m_bShowoplaydo2;
 	  wxBitmap			m_panelBitmap;
 };
 

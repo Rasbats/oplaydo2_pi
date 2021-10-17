@@ -29,11 +29,11 @@ endif(COMMAND cmake_policy)
 
 # define plugin name, owner and versions
 
-SET(VERBOSE_NAME "DR_pi")
-SET(COMMON_NAME "DR")
-SET(TITLE_NAME "DR")
+SET(VERBOSE_NAME "oplaydo2_pi")
+SET(COMMON_NAME "oplaydo2")
+SET(TITLE_NAME "oplaydo2")
 SET(PACKAGE_CONTACT "Rasbats")
-SET(PACKAGE "dr")
+SET(PACKAGE "oplaydo2")
 
 SET(VERSION_MAJOR "3")
 SET(VERSION_MINOR "1")
@@ -62,13 +62,13 @@ set(PROD "prod") # Standard Repos
 set(BETA "beta") # Standard Repos
 set(ALPHA "alpha") # Standard Repos
 
-set(CLOUDSMITH_USER "opencpn")
+set(CLOUDSMITH_USER "mike-rossiter")
 # set this if your cloudsmith repository name does not match your git repository name set(CLOUDSMITH_BASE_REPOSITORY "sar")
-set(CLOUDSMITH_BASE_REPOSITORY "dr")
+set(CLOUDSMITH_BASE_REPOSITORY "oplaydo2")
 
 set(XML_INFO_URL "https://opencpn.org/wiki/dokuwiki/doku.php?id=opencpn:opencpn_user_manual:plugins:navigation:dead_reckoning")
 set(XML_SUMMARY "Plugin to make GPX files for dead reckoning positions")
-set(XML_DESCRIPTION "DR creates GPX files for dead reckoning positions")
+set(XML_DESCRIPTION "oplaydo2 creates GPX files for dead reckoning positions")
 
 ##
 ## ----- Modify section above to include all the details for your plugin ----- ##
@@ -77,7 +77,7 @@ set(XML_DESCRIPTION "DR creates GPX files for dead reckoning positions")
 ## ----- Modify section below if there are special requirements for the plugin ----- ##
 ##
 
-OPTION(DR_USE_SVG "Use SVG graphics" ON)
+OPTION(oplaydo2_USE_SVG "Use SVG graphics" ON)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -130,15 +130,15 @@ include("cmake/PluginConfigure.cmake")
 # ----- Change below to match project requirements for source, headers, etc. ----- ##
 #
 
-SET(SRC_DR
-        src/DR_pi.h
-        src/DR_pi.cpp
+SET(SRC_oplaydo2
+        src/oplaydo2_pi.h
+        src/oplaydo2_pi.cpp
         src/icons.h
         src/icons.cpp
-	    src/DRgui.h
-	    src/DRgui.cpp
-	    src/DRgui_impl.cpp
-	    src/DRgui_impl.h
+	    src/oplaydo2gui.h
+	    src/oplaydo2gui.cpp
+	    src/oplaydo2gui_impl.cpp
+	    src/oplaydo2gui_impl.h
 	    src/NavFunc.h
 	    src/NavFunc.cpp
 		src/ocpn_plugin.h
@@ -149,9 +149,9 @@ SET(SRC_DR
 	)
 
 
-ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_DR})
+ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_oplaydo2})
 
-ADD_DEFINITIONS(-DDR_USE_SVG)
+ADD_DEFINITIONS(-Doplaydo2_USE_SVG)
 ADD_DEFINITIONS(-DTIXML_USE_STL)
 
 ##

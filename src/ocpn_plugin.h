@@ -972,7 +972,7 @@ public:
       int                     nRef;                   // Reference counter, to signal OK for deletion
 
       bool                    bIsAton;                // This object is an aid-to-navigation
-      bool                    bIsAssociable;          // This object is DRGARE or DEPARE
+      bool                    bIsAssociable;          // This object is oplaydo2GARE or DEPARE
 
       int                     m_n_lsindex;
       int                     *m_lsindex_array;

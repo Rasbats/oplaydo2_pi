@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Project:  OpenCPN
- * Purpose:  DR Plugin
+ * Purpose:  oplaydo2 Plugin
  * Author:   Mike Rossiter
  *
  ***************************************************************************
@@ -31,9 +31,9 @@
   #include "wx/wx.h"
 #endif //precompiled headers
 
-#include "DR_pi.h"
-#include "DRgui_impl.h"
-#include "DRgui.h"
+#include "oplaydo2_pi.h"
+#include "oplaydo2gui_impl.h"
+#include "oplaydo2gui.h"
 
 #include "version.h"
 #include "wxWTranslateCatalog.h"
@@ -43,7 +43,7 @@
 
 extern "C" DECL_EXP opencpn_plugin* create_pi(void *ppimgr)
 {
-    return new DR_pi(ppimgr);
+    return new oplaydo2_pi(ppimgr);
 }
 
 extern "C" DECL_EXP void destroy_pi(opencpn_plugin* p)
@@ -53,7 +53,7 @@ extern "C" DECL_EXP void destroy_pi(opencpn_plugin* p)
 
 //---------------------------------------------------------------------------------------------------------
 //
-//    DR PlugIn Implementation
+//    oplaydo2 PlugIn Implementation
 //
 //---------------------------------------------------------------------------------------------------------
 
@@ -65,7 +65,7 @@ extern "C" DECL_EXP void destroy_pi(opencpn_plugin* p)
 //
 //---------------------------------------------------------------------------------------------------------
 
-DR_pi::DR_pi(void *ppimgr)
+oplaydo2_pi::oplaydo2_pi(void *ppimgr)
       :opencpn_plugin_116 (ppimgr)
 {
       // Create the PlugIn icons
@@ -85,20 +85,20 @@ DR_pi::DR_pi(void *ppimgr)
 	  if (panelIcon.IsOk())
 		  m_panelBitmap = wxBitmap(panelIcon);
 	  else
-		  wxLogMessage(_T("    DR_pi panel icon NOT loaded"));
-	  m_bShowDR = false;
+		  wxLogMessage(_T("    oplaydo2_pi panel icon NOT loaded"));
+	  m_bShowoplaydo2 = false;
 }
 
-DR_pi::~DR_pi(void)
+oplaydo2_pi::~oplaydo2_pi(void)
 {
-     delete _img_DR_pi;
-     delete _img_DR;
+     delete _img_oplaydo2_pi;
+     delete _img_oplaydo2;
      
 }
 
-int DR_pi::Init(void)
+int oplaydo2_pi::Init(void)
 {
-      AddLocaleCatalog( _T("opencpn-DR_pi") );
+      AddLocaleCatalog( _T("opencpn-oplaydo2_pi") );
 
       // Set some default private member parameters
       m_route_dialog_x = 0;
@@ -115,14 +115,14 @@ int DR_pi::Init(void)
       LoadConfig();
 
       //    This PlugIn needs a toolbar icon, so request its insertion
-	if(m_bDRShowIcon)
+	if(m_boplaydo2ShowIcon)
 
-#ifdef DR_USE_SVG
-		m_leftclick_tool_id = InsertPlugInToolSVG(_T("DR"), _svg_dr, _svg_dr, _svg_dr_toggled,
-			wxITEM_CHECK, _("DR"), _T(""), NULL, CALCULATOR_TOOL_POSITION, 0, this);
+#ifdef oplaydo2_USE_SVG
+		m_leftclick_tool_id = InsertPlugInToolSVG(_T("oplaydo2"), _svg_dr, _svg_dr, _svg_dr_toggled,
+			wxITEM_CHECK, _("oplaydo2"), _T(""), NULL, CALCULATOR_TOOL_POSITION, 0, this);
 #else
-		m_leftclick_tool_id = InsertPlugInTool(_T(""), _img_DR, _img_DR, wxITEM_CHECK,
-			_("DR"), _T(""), NULL,
+		m_leftclick_tool_id = InsertPlugInTool(_T(""), _img_oplaydo2, _img_oplaydo2, wxITEM_CHECK,
+			_("oplaydo2"), _T(""), NULL,
 			CALCULATOR_TOOL_POSITION, 0, this);
 #endif
     
@@ -141,7 +141,7 @@ int DR_pi::Init(void)
            );
 }
 
-bool DR_pi::DeInit(void)
+bool oplaydo2_pi::DeInit(void)
 {
       //    Record the dialog position
       if (NULL != m_pDialog)
@@ -154,8 +154,8 @@ bool DR_pi::DeInit(void)
             delete m_pDialog;
             m_pDialog = NULL;
 
-			m_bShowDR = false;
-			SetToolbarItemState( m_leftclick_tool_id, m_bShowDR );
+			m_bShowoplaydo2 = false;
+			SetToolbarItemState( m_leftclick_tool_id, m_bShowoplaydo2 );
 
       }	
     
@@ -166,54 +166,54 @@ bool DR_pi::DeInit(void)
     return true;
 }
 
-int DR_pi::GetAPIVersionMajor()
+int oplaydo2_pi::GetAPIVersionMajor()
 {
       return OCPN_API_VERSION_MAJOR;
 }
 
-int DR_pi::GetAPIVersionMinor()
+int oplaydo2_pi::GetAPIVersionMinor()
 {
       return OCPN_API_VERSION_MINOR;
 }
 
-int DR_pi::GetPlugInVersionMajor()
+int oplaydo2_pi::GetPlugInVersionMajor()
 {
       return PLUGIN_VERSION_MAJOR;
 }
 
-int DR_pi::GetPlugInVersionMinor()
+int oplaydo2_pi::GetPlugInVersionMinor()
 {
       return PLUGIN_VERSION_MINOR;
 }
 
-wxBitmap *DR_pi::GetPlugInBitmap()
+wxBitmap *oplaydo2_pi::GetPlugInBitmap()
 {
       return &m_panelBitmap;
 }
 
-wxString DR_pi::GetCommonName()
+wxString oplaydo2_pi::GetCommonName()
 {
-      return _("DR");
+      return _("oplaydo2");
 }
 
 
-wxString DR_pi::GetShortDescription()
+wxString oplaydo2_pi::GetShortDescription()
 {
-      return _("DR Positions using GPX files");
+      return _("oplaydo2 Positions using GPX files");
 }
 
-wxString DR_pi::GetLongDescription()
+wxString oplaydo2_pi::GetLongDescription()
 {
       return _("Creates GPX files with\n\
-DR Positions");
+oplaydo2 Positions");
 }
 
-int DR_pi::GetToolbarToolCount(void)
+int oplaydo2_pi::GetToolbarToolCount(void)
 {
       return 1;
 }
 
-void DR_pi::SetColorScheme(PI_ColorScheme cs)
+void oplaydo2_pi::SetColorScheme(PI_ColorScheme cs)
 {
       if (NULL == m_pDialog)
             return;
@@ -221,7 +221,7 @@ void DR_pi::SetColorScheme(PI_ColorScheme cs)
       DimeWindow(m_pDialog);
 }
 
-void DR_pi::OnToolbarToolCallback(int id)
+void oplaydo2_pi::OnToolbarToolCallback(int id)
 {
     
 	if(NULL == m_pDialog)
@@ -232,29 +232,29 @@ void DR_pi::OnToolbarToolCallback(int id)
 
 	  m_pDialog->Fit();
 	  //Toggle 
-	  m_bShowDR = !m_bShowDR;	  
+	  m_bShowoplaydo2 = !m_bShowoplaydo2;	  
 
       //    Toggle dialog? 
-      if(m_bShowDR) {
+      if(m_bShowoplaydo2) {
           m_pDialog->Show();         
       } else
           m_pDialog->Hide();
      
       // Toggle is handled by the toolbar but we must keep plugin manager b_toggle updated
       // to actual status to ensure correct status upon toolbar rebuild
-      SetToolbarItemState( m_leftclick_tool_id, m_bShowDR );
+      SetToolbarItemState( m_leftclick_tool_id, m_bShowoplaydo2 );
 
       RequestRefresh(m_parent_window); // refresh main window
 }
 
-bool DR_pi::LoadConfig(void)
+bool oplaydo2_pi::LoadConfig(void)
 {
       wxFileConfig *pConf = (wxFileConfig *)m_pconfig;
 
       if(pConf)
       {
-            pConf->SetPath ( _T( "/Settings/DR_pi" ) );
-			 pConf->Read ( _T( "ShowDRIcon" ), &m_bDRShowIcon, 1 );
+            pConf->SetPath ( _T( "/Settings/oplaydo2_pi" ) );
+			 pConf->Read ( _T( "Showoplaydo2Icon" ), &m_boplaydo2ShowIcon, 1 );
            
             m_route_dialog_x =  pConf->Read ( _T ( "DialogPosX" ), 20L );
             m_route_dialog_y =  pConf->Read ( _T ( "DialogPosY" ), 20L );
@@ -269,14 +269,14 @@ bool DR_pi::LoadConfig(void)
             return false;
 }
 
-bool DR_pi::SaveConfig(void)
+bool oplaydo2_pi::SaveConfig(void)
 {
       wxFileConfig *pConf = (wxFileConfig *)m_pconfig;
 
       if(pConf)
       {
-            pConf->SetPath ( _T ( "/Settings/DR_pi" ) );
-			pConf->Write ( _T ( "ShowDRIcon" ), m_bDRShowIcon );
+            pConf->SetPath ( _T ( "/Settings/oplaydo2_pi" ) );
+			pConf->Write ( _T ( "Showoplaydo2Icon" ), m_boplaydo2ShowIcon );
           
             pConf->Write ( _T ( "DialogPosX" ),   m_route_dialog_x );
             pConf->Write ( _T ( "DialogPosY" ),   m_route_dialog_y );
@@ -287,10 +287,10 @@ bool DR_pi::SaveConfig(void)
             return false;
 }
 
-void DR_pi::OnDRDialogClose()
+void oplaydo2_pi::Onoplaydo2DialogClose()
 {
-    m_bShowDR = false;
-    SetToolbarItemState( m_leftclick_tool_id, m_bShowDR );
+    m_bShowoplaydo2 = false;
+    SetToolbarItemState( m_leftclick_tool_id, m_bShowoplaydo2 );
     m_pDialog->Hide();
     SaveConfig();
 

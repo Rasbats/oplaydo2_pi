@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * Project:  OpenCPN
- * Purpose:  DR Plugin
+ * Purpose:  oplaydo2 Plugin
  * Author:   Mike Rossiter
  *
  ***************************************************************************
@@ -33,8 +33,8 @@
 #endif
 
 
-#include "DRgui.h"
-#include "DR_pi.h"
+#include "oplaydo2gui.h"
+#include "oplaydo2_pi.h"
 
 #include "NavFunc.h"
 #include "tinyxml.h"
@@ -44,17 +44,17 @@
 
 using namespace std;
 
-class DR_pi;
+class oplaydo2_pi;
 class Position;
 
 class Dlg : public m_Dialog
 {
 public:
-	Dlg(wxWindow *parent, DR_pi *ppi);
+	Dlg(wxWindow *parent, oplaydo2_pi *ppi);
 	~Dlg();
         
 	wxWindow *pParent;
-	DR_pi *pPlugIn;
+	oplaydo2_pi *pPlugIn;
 
 	
 	
