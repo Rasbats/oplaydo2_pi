@@ -61,7 +61,7 @@ include(PluginOptions)
 #
 # -------  Plugin setup --------
 #
-project(oplaydo2_pi VERSION 0.0.0.1)
+project(oplaydo2_pi VERSION 0.0.0.2)
 set(PKG_PRERELEASE "")  # Empty, or a tag like 'beta'
 
 set(DISPLAY_NAME oplaydo2)    # Dialogs, installer artifacts, ...
