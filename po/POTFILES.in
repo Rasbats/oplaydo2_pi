@@ -1,0 +1,12 @@
+src/oplaydo1_pi.h
+src/oplaydo1_pi.cpp
+src/icons.h
+src/icons.cpp
+src/oplaydo1gui.h
+src/oplaydo1gui.cpp
+src/oplaydo1gui_impl.cpp
+src/oplaydo1gui_impl.h
+src/tinyxml.cpp
+src/tinyxmlerror.cpp
+src/tinyxmlparser.cpp
+src/tinyxml.h
