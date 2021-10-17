@@ -88,11 +88,6 @@ set (SRC
 	    src/oplaydo2gui_impl.h
 	    src/NavFunc.h
 	    src/NavFunc.cpp
-		src/ocpn_plugin.h
-		src/tinyxml.cpp
-        src/tinyxmlerror.cpp
-        src/tinyxmlparser.cpp
-        src/tinyxml.h
 	)
 
 # -------- Setup completed, build the plugin --------
