@@ -12,8 +12,8 @@ wxBitmap *_img_oplaydo2;
 
 
 #include "ocpn_plugin.h"
-wxString _svg_dr;
-wxString _svg_dr_toggled;
+wxString _svg_oplaydo2;
+wxString _svg_oplaydo2_toggled;
 
 
 void initialize_images(void)
@@ -30,14 +30,14 @@ void initialize_images(void)
 	wxFileName fn;
 	wxString tmp_path;
 
-	tmp_path = GetPluginDataDir("dr_pi");
+	tmp_path = GetPluginDataDir("oplaydo2_pi");
 	fn.SetPath(tmp_path);
 	fn.AppendDir(_T("data"));
 
-	fn.SetFullName(_T("dr_pi.svg"));
-	_svg_dr = fn.GetFullPath();
-	fn.SetFullName(_T("dr_pi_toggled.svg"));
-	_svg_dr_toggled = fn.GetFullPath();
+	fn.SetFullName(_T("oplaydo2_pi.svg"));
+	_svg_oplaydo2 = fn.GetFullPath();
+	fn.SetFullName(_T("oplaydo2_pi_toggled.svg"));
+	_svg_oplaydo2_toggled = fn.GetFullPath();
 
 	return;
 }

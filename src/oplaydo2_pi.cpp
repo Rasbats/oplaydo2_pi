@@ -74,10 +74,10 @@ oplaydo2_pi::oplaydo2_pi(void *ppimgr)
 	  wxFileName fn;
 	  wxString tmp_path;
 
-	  tmp_path = GetPluginDataDir("dr_pi");
+	  tmp_path = GetPluginDataDir("oplaydo2_pi");
 	  fn.SetPath(tmp_path);
 	  fn.AppendDir(_T("data"));
-	  fn.SetFullName("dr_pi_panel_icon.png");
+	  fn.SetFullName("oplaydo2_pi_panel_icon.png");
 
 	  wxString shareLocn = fn.GetFullPath();
 	  wxImage panelIcon(shareLocn);
@@ -118,7 +118,7 @@ int oplaydo2_pi::Init(void)
 	if(m_boplaydo2ShowIcon)
 
 #ifdef oplaydo2_USE_SVG
-		m_leftclick_tool_id = InsertPlugInToolSVG(_T("oplaydo2"), _svg_dr, _svg_dr, _svg_dr_toggled,
+		m_leftclick_tool_id = InsertPlugInToolSVG(_T("oplaydo2"), _svg_oplaydo2, _svg_oplaydo2, _svg_oplaydo2_toggled,
 			wxITEM_CHECK, _("oplaydo2"), _T(""), NULL, CALCULATOR_TOOL_POSITION, 0, this);
 #else
 		m_leftclick_tool_id = InsertPlugInTool(_T(""), _img_oplaydo2, _img_oplaydo2, wxITEM_CHECK,

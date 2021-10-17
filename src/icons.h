@@ -13,8 +13,8 @@ extern wxBitmap *_img_oplaydo2_pi;
 extern wxBitmap *_img_oplaydo2;
 
 #ifdef oplaydo2_USE_SVG
-extern wxString _svg_dr;
-extern wxString _svg_dr_toggled;
+extern wxString _svg_oplaydo2;
+extern wxString _svg_oplaydo2_toggled;
 #endif
 
 #endif /* ICONS_H */
