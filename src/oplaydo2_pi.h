@@ -41,7 +41,7 @@
 #include "oplaydo2gui_impl.h"
 #include "oplaydo2gui.h"
 
-#include "version.h"
+#include "config.h"
 
 //----------------------------------------------------------------------------------------------------------
 //    The PlugIn Class Definition

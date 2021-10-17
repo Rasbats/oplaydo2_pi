@@ -35,9 +35,6 @@
 #include "oplaydo2gui_impl.h"
 #include "oplaydo2gui.h"
 
-#include "version.h"
-#include "wxWTranslateCatalog.h"
-
 
 // the class factories, used to create and destroy instances of the PlugIn
 
@@ -168,12 +165,14 @@ bool oplaydo2_pi::DeInit(void)
 
 int oplaydo2_pi::GetAPIVersionMajor()
 {
-      return OCPN_API_VERSION_MAJOR;
+      return atoi(API_VERSION);
 }
 
 int oplaydo2_pi::GetAPIVersionMinor()
 {
-      return OCPN_API_VERSION_MINOR;
+    std::string v(API_VERSION);
+    size_t dotpos = v.find('.');
+    return atoi(v.substr(dotpos + 1).c_str());
 }
 
 int oplaydo2_pi::GetPlugInVersionMajor()
