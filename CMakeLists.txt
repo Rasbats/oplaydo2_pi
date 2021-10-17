@@ -77,7 +77,7 @@ set(PKG_IS_OPEN_SOURCE "yes")
 set(CPACK_PACKAGE_HOMEPAGE_URL https://github.com/Rasbats/oplaydo2_pi)
 set(PKG_INFO_URL https://opencpn.org/OpenCPN/plugins/oplaydo2.html)
 
-SET(SRC_oplaydo2
+set (SRC 
         src/oplaydo2_pi.h
         src/oplaydo2_pi.cpp
         src/icons.h
