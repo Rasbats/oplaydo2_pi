@@ -1,9 +1,9 @@
-/***************************************************************************
+/******************************************************************************
  *
  * Project:  OpenCPN
  *
  ***************************************************************************
- *   Copyright (C) 2017 by David S. Register                               *
+ *   Copyright (C) 2013 by David S. Register                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,29 +19,35 @@
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,  USA.         *
- **************************************************************************/
+ ***************************************************************************
+ */
 
-#ifndef __PISHADERS_H__
-#define __PISHADERS_H__
+#ifndef __SELECTITEM_H__
+#define __SELECTITEM_H__
 
-#include "wx/wxprec.h"
-#ifndef  WX_PRECOMP
-#include "wx/wx.h"
-#endif //precompiled headers
+#include <wx/list.h>
 
-#ifdef ocpnUSE_GLES2
-#include "GLES2/gl2.h"
-#endif
+class SelectItem
+{
+public:
+      SelectItem();
+      ~SelectItem();
 
-    extern GLint pi_color_tri_shader_program;
-    extern GLint pi_colorv_tri_shader_program;
-    extern GLint pi_texture_2D_shader_program;
-    extern GLint pi_texture_2DA_shader_program;
-    extern GLint pi_texture_text_shader_program;
-    extern GLint pi_circle_filled_shader_program;
-    
+      int   GetUserData(void);
+      void  SetUserData(int data);
 
-bool pi_loadShaders();
-void configureShaders(float width, float height);
+      float m_slat;
+      float m_slon;
+      float m_slat2;
+      float m_slon2;
+      int   m_seltype;
+      bool  m_bIsSelected;
+      const void  *m_pData1;
+      void  *m_pData2;
+      void  *m_pData3;
+      int   m_Data4;
+};
+
+WX_DECLARE_LIST(SelectItem, SelectableItemList);// establish class as list member
 
 #endif

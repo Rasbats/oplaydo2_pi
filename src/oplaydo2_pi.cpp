@@ -297,4 +297,3 @@ void oplaydo2_pi::Onoplaydo2DialogClose()
 
 }
 
-

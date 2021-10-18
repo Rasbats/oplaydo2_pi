@@ -88,21 +88,19 @@ set (SRC
 	    src/oplaydo2gui_impl.h
 	    src/NavFunc.h
 	    src/NavFunc.cpp
-		src/plugingl/pi_shaders.cpp
-		src/plugingl/pidc.cpp
-		src/plugingl/qtstylesheet.cpp
-		src/plugingl/TexFont.cpp
-		src/plugingl/linmath.h
-		src/plugingl/pi_shaders.h
-		src/plugingl/pidc.h
-		src/plugingl/qtstylesheet.h
-		src/plugingl/TexFont.h
+		src/ODdc.h
+		src/ODdc.cpp
+		src/ODShaders.cpp
+		src/ODShaders.h
+		src/TexFont.h
 	)
 
 # -------- Setup completed, build the plugin --------
 #
 add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC})
 include_directories(BEFORE ${CMAKE_BINARY_DIR}/include)
+include_directories(BEFORE ${CMAKE_BINARY_DIR}/libs/GL)
+
 
 add_subdirectory("libs/api-16")
 target_link_libraries(${CMAKE_PROJECT_NAME} ocpn::api)

@@ -22,112 +22,68 @@
  **************************************************************************/
 
 #ifdef USE_ANDROID_GLES2    
+#include "ODShaders.h"
+
+#include "linmath.h"
+
 #include "qdebug.h"
 
-#include "GLES2/gl2.h"
-#include "pi_shaders.h"
-#include "linmath.h"
+#include <gl2.h>
+
+#include "wx/log.h"
 
 // Simple colored triangle shader
 
 static const GLchar* color_tri_vertex_shader_source =
-    "attribute vec2 position;\n"
+    "attribute vec2 aPos;\n"
     "uniform mat4 MVMatrix;\n"
     "uniform mat4 TransformMatrix;\n"
-    "uniform vec4 color;\n"
-    "varying vec4 fragColor;\n"
     "void main() {\n"
-    "   fragColor = color;\n"
-    "   gl_Position = MVMatrix * TransformMatrix * vec4(position, 0.0, 1.0);\n"
+    "   gl_Position = MVMatrix * TransformMatrix * vec4(aPos, 0.0, 1.0);\n"
     "}\n";
 
     static const GLchar* color_tri_fragment_shader_source =
     "precision lowp float;\n"
-    "varying vec4 fragColor;\n"
+    "uniform vec4 uColour;\n"
     "void main() {\n"
-    "   gl_FragColor = fragColor;\n"
+    "   gl_FragColor = uColour;\n"
     "}\n";
 
 //  Array colored triangle shader
     static const GLchar* colorv_tri_vertex_shader_source =
-    "attribute vec2 position;\n"
-    "attribute vec4 colorv;\n"
+    "attribute vec2 aPos;\n"
     "uniform mat4 MVMatrix;\n"
     "uniform mat4 TransformMatrix;\n"
-    "varying vec4 fragColor;\n"
     "void main() {\n"
-    "   fragColor = colorv;\n"
-    "   gl_Position = MVMatrix * TransformMatrix * vec4(position, 0.0, 1.0);\n"
+    "   gl_Position = MVMatrix * TransformMatrix * vec4(aPos, 0.0, 1.0);\n"
     "}\n";
     
     static const GLchar* colorv_tri_fragment_shader_source =
     "precision lowp float;\n"
-    "varying vec4 fragColor;\n"
+    "uniform vec4 uColour;\n"
     "void main() {\n"
-    "   gl_FragColor = fragColor;\n"
+    "   gl_FragColor = uColour;\n"
     "}\n";
     
-    // Simple 2D texture shader
 static const GLchar* texture_2D_vertex_shader_source =
     "attribute vec2 aPos;\n"
     "attribute vec2 aUV;\n"
     "uniform mat4 MVMatrix;\n"
     "uniform mat4 TransformMatrix;\n"
-    "varying vec2 varCoord;\n"
+    "varying vec2 varTextureCoord;\n"
     "void main() {\n"
-    "   gl_Position = MVMatrix * TransformMatrix * vec4(aPos, 0.0, 1.0);\n"
-    "   varCoord = aUV;\n"
+    "   gl_Position =  MVMatrix * vec4(aPos, 0.0, 1.0);\n"
+    "   varTextureCoord = aUV;\n"
     "}\n";
 
 static const GLchar* texture_2D_fragment_shader_source =
     "precision lowp float;\n"
-    "uniform sampler2D uTex;\n"
-    "varying vec2 varCoord;\n"
+    "uniform sampler2D uTexture;\n"
+    "uniform vec4 uColour;\n"
+    "varying vec2 varTextureCoord;\n"
     "void main() {\n"
-    "   gl_FragColor = texture2D(uTex, varCoord);\n"
+    "   gl_FragColor = (texture2D(uTexture, varTextureCoord) + vec4(uColour.rgb,0.0)) * vec4(1.0,1.0,1.0,uColour.a);\n"
     "}\n";
-    
-    // Alpah 2D texture shader
-static const GLchar* pi_texture_2DA_vertex_shader_source =
-    "attribute vec2 aPos;\n"
-    "attribute vec2 aUV;\n"
-    "uniform mat4 MVMatrix;\n"
-    "uniform mat4 TransformMatrix;\n"
-    "varying vec2 varCoord;\n"
-    "void main() {\n"
-    "   gl_Position = MVMatrix * TransformMatrix * vec4(aPos, 0.0, 1.0);\n"
-    "   varCoord = aUV;\n"
-    "}\n";
-    
-static const GLchar* pi_texture_2DA_fragment_shader_source =
-    "precision lowp float;\n"
-    "uniform sampler2D uTex;\n"
-    "varying vec2 varCoord;\n"
-    "uniform vec4 color;\n"
-    "void main() {\n"
-    "   gl_FragColor = texture2D(uTex, varCoord) + color;\n"
-    "}\n";
-
-static const GLchar* pi_texture_text_vertex_shader_source =
-    "attribute vec2 aPos;\n"
-    "attribute vec2 aUV;\n"
-    "uniform mat4 MVMatrix;\n"
-    "uniform mat4 TransformMatrix;\n"
-    "varying vec2 varCoord;\n"
-    "void main() {\n"
-    "   gl_Position = MVMatrix * TransformMatrix * vec4(aPos, 0.0, 1.0);\n"
-    "   varCoord = aUV;\n"
-    "}\n";
-
-static const GLchar* pi_texture_text_fragment_shader_source =
-    "precision lowp float;\n"
-    "uniform sampler2D uTex;\n"
-    "varying vec2 varCoord;\n"
-    "uniform vec4 color;\n"
-    "void main() {\n"
-    "   gl_FragColor = vec4(color.r, color.g, color.b, color.a * texture2D(uTex, varCoord).a);\n"
-    "}\n";
-
 
     // Fade Texture shader
 static const GLchar* fade_texture_2D_vertex_shader_source =
@@ -136,6 +92,7 @@ static const GLchar* fade_texture_2D_vertex_shader_source =
     "attribute vec2 aUV;\n"
     "attribute vec2 aUV2;\n"
     "uniform mat4 MVMatrix;\n"
+    "uniform mat4 TransformMatrix;\n"
     "varying vec2 varCoord;\n"
     "varying vec2 varCoord2;\n"
     "void main() {\n"
@@ -146,14 +103,14 @@ static const GLchar* fade_texture_2D_vertex_shader_source =
     
 static const GLchar* fade_texture_2D_fragment_shader_source =
     "precision highp float;\n"
-    "uniform sampler2D uTex;\n"
-    "uniform sampler2D uTex2;\n"
+    "uniform sampler2D uTexture;\n"
+    "uniform sampler2D uTexture2;\n"
     "uniform lowp float texAlpha;\n"
     "varying vec2 varCoord;\n"
     "varying vec2 varCoord2;\n"
     "void main() {\n"
-    "   mediump vec4 texColor = texture2D(uTex, varCoord);\n"
-    "   mediump vec4 texTwoColor = texture2D(uTex2, varCoord2);\n"
+    "   mediump vec4 texColor = texture2D(uTexture, varCoord);\n"
+    "   mediump vec4 texTwoColor = texture2D(uTexture2, varCoord2);\n"
     "   gl_FragColor = ((texTwoColor * (1.0 - texAlpha)) + (texColor * texAlpha));\n"
     "}\n";
     
@@ -190,6 +147,7 @@ static const GLchar* circle_filled_fragment_shader_source =
     "attribute vec2 aPos;\n"
     "attribute vec2 aUV;\n"
     "uniform mat4 MVMatrix;\n"
+    "uniform mat4 TransformMatrix;\n"
     "varying vec2 varCoord;\n"
     "void main() {\n"
     "   gl_Position = MVMatrix * vec4(aPos, 0.0, 1.0);\n"
@@ -198,44 +156,36 @@ static const GLchar* circle_filled_fragment_shader_source =
     
     static const GLchar* FBO_texture_2D_fragment_shader_source =
     "precision lowp float;\n"
-    "uniform sampler2D uTex;\n"
+    "uniform sampler2D uTexture;\n"
     "varying vec2 varCoord;\n"
     "void main() {\n"
-    "   gl_FragColor = texture2D(uTex, varCoord);\n"
+    "   gl_FragColor = texture2D(uTexture, varCoord);\n"
     "}\n";
     
 
-    GLint pi_color_tri_fragment_shader;
-    GLint pi_color_tri_shader_program;
-    GLint pi_color_tri_vertex_shader;
+    GLint pi_color_tri_fragment_shader = 0;
+    GLint pi_color_tri_shader_program = 0;
+    GLint pi_color_tri_vertex_shader = 0;
 
-    GLint pi_colorv_tri_fragment_shader;
-    GLint pi_colorv_tri_shader_program;
-    GLint pi_colorv_tri_vertex_shader;
+    GLint pi_colorv_tri_fragment_shader = 0;
+    GLint pi_colorv_tri_shader_program = 0;
+    GLint pi_colorv_tri_vertex_shader = 0;
     
-    GLint pi_texture_2D_fragment_shader;
-    GLint pi_texture_2D_shader_program;
-    GLint pi_texture_2D_vertex_shader;
+    GLint pi_texture_2D_fragment_shader = 0;
+    GLint pi_texture_2D_shader_program = 0;
+    GLint pi_texture_2D_vertex_shader = 0;
 
-    GLint pi_texture_2DA_fragment_shader;
-    GLint pi_texture_2DA_shader_program;
-    GLint pi_texture_2DA_vertex_shader;
+    //     GLint fade_texture_2D_fragment_shader = 0;
+    //     GLint fade_texture_2D_shader_program = 0;
+    //     GLint fade_texture_2D_vertex_shader = 0;
 
-    GLint pi_texture_text_fragment_shader;
-    GLint pi_texture_text_shader_program;
-    GLint pi_texture_text_vertex_shader;
+    GLint pi_circle_filled_shader_program = 0;
+    GLint pi_circle_filled_vertex_shader = 0;
+    GLint pi_circle_filled_fragment_shader = 0;
 
-//     GLint fade_texture_2D_fragment_shader;
-//     GLint fade_texture_2D_shader_program;
-//     GLint fade_texture_2D_vertex_shader;
-
-    GLint pi_circle_filled_shader_program;
-    GLint pi_circle_filled_vertex_shader;
-    GLint pi_circle_filled_fragment_shader;
-
-//     GLint FBO_texture_2D_fragment_shader;
-//     GLint FBO_texture_2D_shader_program;
-//     GLint FBO_texture_2D_vertex_shader;
+    //     GLint FBO_texture_2D_fragment_shader = 0;
+    //     GLint FBO_texture_2D_shader_program = 0;
+    //     GLint FBO_texture_2D_vertex_shader = 0;
     
 bool pi_loadShaders()
 {
@@ -259,6 +209,7 @@ bool pi_loadShaders()
       if (!success) {
           glGetShaderInfoLog(pi_color_tri_vertex_shader, INFOLOG_LEN, NULL, infoLog);
         printf("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n%s\n", infoLog);
+        wxLogMessage(infoLog);
         ret_val = false;
       }
     }
@@ -272,6 +223,7 @@ bool pi_loadShaders()
       if (!success) {
           glGetShaderInfoLog(pi_color_tri_fragment_shader, INFOLOG_LEN, NULL, infoLog);
         printf("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s\n", infoLog);
+        wxLogMessage(infoLog);
         ret_val = false;
      }
     }
@@ -284,8 +236,9 @@ bool pi_loadShaders()
       glLinkProgram(pi_color_tri_shader_program);
       glGetProgramiv(pi_color_tri_shader_program, GL_LINK_STATUS, &success);
       if (!success) {
-          glGetProgramInfoLog(pi_color_tri_shader_program, INFOLOG_LEN, NULL, infoLog);
+        glGetProgramInfoLog(pi_color_tri_shader_program, INFOLOG_LEN, NULL, infoLog);
         printf("ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s\n", infoLog);
+        wxLogMessage(infoLog);
         ret_val = false;
       }
     }
@@ -301,6 +254,7 @@ bool pi_loadShaders()
         if (!success) {
             glGetShaderInfoLog(pi_colorv_tri_vertex_shader, INFOLOG_LEN, NULL, infoLog);
             printf("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n%s\n", infoLog);
+            wxLogMessage(infoLog);
             ret_val = false;
         }
     }
@@ -314,6 +268,7 @@ bool pi_loadShaders()
         if (!success) {
             glGetShaderInfoLog(pi_colorv_tri_fragment_shader, INFOLOG_LEN, NULL, infoLog);
             printf("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s\n", infoLog);
+            wxLogMessage(infoLog);
             ret_val = false;
         }
     }
@@ -328,6 +283,7 @@ bool pi_loadShaders()
         if (!success) {
             glGetProgramInfoLog(pi_colorv_tri_shader_program, INFOLOG_LEN, NULL, infoLog);
             printf("ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s\n", infoLog);
+            wxLogMessage(infoLog);
             ret_val = false;
         }
     }
@@ -343,6 +299,7 @@ bool pi_loadShaders()
       if (!success) {
           glGetShaderInfoLog(pi_texture_2D_vertex_shader, INFOLOG_LEN, NULL, infoLog);
         printf("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n%s\n", infoLog);
+        wxLogMessage(infoLog);
         ret_val = false;
       }
     }
@@ -356,6 +313,7 @@ bool pi_loadShaders()
       if (!success) {
           glGetShaderInfoLog(pi_texture_2D_fragment_shader, INFOLOG_LEN, NULL, infoLog);
         printf("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s\n", infoLog);
+        wxLogMessage(infoLog);
         ret_val = false;
       }
     }
@@ -370,101 +328,11 @@ bool pi_loadShaders()
       if (!success) {
           glGetProgramInfoLog(pi_texture_2D_shader_program, INFOLOG_LEN, NULL, infoLog);
         printf("ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s\n", infoLog);
+        wxLogMessage(infoLog);
         ret_val = false;
       }
     }
 
-    // 2D Alpha color texture shader
-    
-    if(!pi_texture_2DA_vertex_shader){
-        /* Vertex shader */
-        pi_texture_2DA_vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(pi_texture_2DA_vertex_shader, 1, &pi_texture_2DA_vertex_shader_source, NULL);
-        glCompileShader(pi_texture_2DA_vertex_shader);
-        glGetShaderiv(pi_texture_2DA_vertex_shader, GL_COMPILE_STATUS, &success);
-        if (!success) {
-            glGetShaderInfoLog(pi_texture_2DA_vertex_shader, INFOLOG_LEN, NULL, infoLog);
-            printf("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n%s\n", infoLog);
-            qDebug() << infoLog;
-            ret_val = false;
-        }
-    }
-    
-    if(!pi_texture_2DA_fragment_shader){
-        /* Fragment shader */
-        pi_texture_2DA_fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(pi_texture_2DA_fragment_shader, 1, &pi_texture_2DA_fragment_shader_source, NULL);
-        glCompileShader(pi_texture_2DA_fragment_shader);
-        glGetShaderiv(pi_texture_2DA_fragment_shader, GL_COMPILE_STATUS, &success);
-        if (!success) {
-            glGetShaderInfoLog(pi_texture_2DA_fragment_shader, INFOLOG_LEN, NULL, infoLog);
-            printf("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s\n", infoLog);
-            qDebug() << infoLog;
-            ret_val = false;
-        }
-    }
-    
-    if(!pi_texture_2DA_shader_program){
-        /* Link shaders */
-        pi_texture_2DA_shader_program = glCreateProgram();
-        glAttachShader(pi_texture_2DA_shader_program, pi_texture_2DA_vertex_shader);
-        glAttachShader(pi_texture_2DA_shader_program, pi_texture_2DA_fragment_shader);
-        glLinkProgram(pi_texture_2DA_shader_program);
-        glGetProgramiv(pi_texture_2DA_shader_program, GL_LINK_STATUS, &success);
-        if (!success) {
-            glGetProgramInfoLog(pi_texture_2DA_shader_program, INFOLOG_LEN, NULL, infoLog);
-            printf("ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s\n", infoLog);
-            qDebug() << infoLog;
-            ret_val = false;
-        }
-    }
-
-
-        
-    if(!pi_texture_text_vertex_shader){
-        /* Vertex shader */
-        pi_texture_text_vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(pi_texture_text_vertex_shader, 1, &pi_texture_text_vertex_shader_source, NULL);
-        glCompileShader(pi_texture_text_vertex_shader);
-        glGetShaderiv(pi_texture_text_vertex_shader, GL_COMPILE_STATUS, &success);
-        if (!success) {
-            glGetShaderInfoLog(pi_texture_text_vertex_shader, INFOLOG_LEN, NULL, infoLog);
-            printf("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n%s\n", infoLog);
-            qDebug() << infoLog;
-            ret_val = false;
-        }
-    }
-
-    if(!pi_texture_text_fragment_shader){
-        /* Fragment shader */
-        pi_texture_text_fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(pi_texture_text_fragment_shader, 1, &pi_texture_text_fragment_shader_source, NULL);
-        glCompileShader(pi_texture_text_fragment_shader);
-        glGetShaderiv(pi_texture_text_fragment_shader, GL_COMPILE_STATUS, &success);
-        if (!success) {
-            glGetShaderInfoLog(pi_texture_text_fragment_shader, INFOLOG_LEN, NULL, infoLog);
-            printf("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s\n", infoLog);
-            qDebug() << infoLog;
-            ret_val = false;
-        }
-    }
-    
-    if(!pi_texture_text_shader_program){
-        /* Link shaders */
-        pi_texture_text_shader_program = glCreateProgram();
-        glAttachShader(pi_texture_text_shader_program, pi_texture_text_vertex_shader);
-        glAttachShader(pi_texture_text_shader_program, pi_texture_text_fragment_shader);
-        glLinkProgram(pi_texture_text_shader_program);
-        glGetProgramiv(pi_texture_text_shader_program, GL_LINK_STATUS, &success);
-        if (!success) {
-            glGetProgramInfoLog(pi_texture_text_shader_program, INFOLOG_LEN, NULL, infoLog);
-            printf("ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s\n", infoLog);
-            qDebug() << infoLog;
-            ret_val = false;
-        }
-    }
-
-    
 #if 0
     
     // Fade texture shader
@@ -635,18 +503,6 @@ void configureShaders(float width, float height)
     glUniformMatrix4fv( matloc, 1, GL_FALSE, (const GLfloat*)vp_transform); 
     transloc = glGetUniformLocation(pi_texture_2D_shader_program,"TransformMatrix");
     glUniformMatrix4fv( transloc, 1, GL_FALSE, (const GLfloat*)I); 
-
-    glUseProgram(pi_texture_2DA_shader_program);
-    matloc = glGetUniformLocation(pi_texture_2DA_shader_program,"MVMatrix");
-    glUniformMatrix4fv( matloc, 1, GL_FALSE, (const GLfloat*)vp_transform); 
-    transloc = glGetUniformLocation(pi_texture_2DA_shader_program,"TransformMatrix");
-    glUniformMatrix4fv( transloc, 1, GL_FALSE, (const GLfloat*)I);
-
-    glUseProgram(pi_texture_text_shader_program);
-    matloc = glGetUniformLocation(pi_texture_text_shader_program,"MVMatrix");
-    glUniformMatrix4fv( matloc, 1, GL_FALSE, (const GLfloat*)vp_transform); 
-    transloc = glGetUniformLocation(pi_texture_text_shader_program,"TransformMatrix");
-    glUniformMatrix4fv( transloc, 1, GL_FALSE, (const GLfloat*)I); 
     
     //qDebug() << pi_texture_2D_shader_program << transloc;
 
@@ -657,8 +513,5 @@ void configureShaders(float width, float height)
     glUniformMatrix4fv( transloc, 1, GL_FALSE, (const GLfloat*)I); 
     
 }
-#else
-bool pi_loadShaders() { return true; }
-void configureShaders(float width, float height) {}
 
 #endif
