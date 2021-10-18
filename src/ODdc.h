@@ -94,7 +94,6 @@ public:
     void DrawCircle(wxCoord x, wxCoord y, wxCoord radius);
     void DrawCircle(const wxPoint &pt, wxCoord radius) { DrawCircle(pt.x, pt.y, radius); }
     void DrawDisk( wxCoord x, wxCoord y, wxCoord innerRadius, wxCoord outerRadius );
-    void DrawDiskPattern( wxCoord x, wxCoord y, wxCoord innerRadius, wxCoord outerRadius, GLint textureID, wxSize textureSize );
     void DrawSector( wxCoord xc, wxCoord yc, wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2, wxCoord x3, wxCoord y3, wxCoord x4, wxCoord y4  );
     void StrokeCircle(wxCoord x, wxCoord y, wxCoord radius);
 
@@ -128,7 +127,6 @@ public:
 
     wxDC *GetDC() const { return dc; }
 
-    void SetTextureParms( GLint textureId, int width, int height );
 
 #ifdef ocpnUSE_GL     
     GLfloat     *s_odc_tess_work_buf;

@@ -53,6 +53,7 @@
 
 #include "oplaydo2_pi.h"
 #include "ODdc.h"
+#include "GL/gl.h"
 
 #define __CALL_CONVENTION
 
@@ -1526,37 +1527,6 @@ void ODDC::DrawDisk( wxCoord x, wxCoord y, wxCoord innerRadius, wxCoord outerRad
 #endif    
 }
 
-void ODDC::DrawDiskPattern( wxCoord x, wxCoord y, wxCoord innerRadius, wxCoord outerRadius, GLint textureID, wxSize textureSize )
-{
-    if( dc ) {
-        DrawDisk(x, y, innerRadius, outerRadius);
-    }
-#ifdef ocpnUSE_GL
-    else {
-        //float steps = floorf(wxMax(sqrtf(sqrtf((float)(width*width + height*height))), 1) * M_PI);
-        float innerSteps = floorf(wxMax(sqrtf(sqrtf( ((innerRadius * 2) * (innerRadius * 2)) * 2) ), 1) *M_PI);
-        float outerSteps = floorf(wxMax(sqrtf(sqrtf( ((outerRadius * 2) * (outerRadius * 2)) * 2) ), 1) *M_PI);
-        wxPoint *disk = new wxPoint[ (int) innerSteps +(int) outerSteps + 2 ];
-        float a = 0.;
-        for( int i = 0; i < (int) innerSteps; i++ ) {
-            disk[i].x = x + innerRadius * sinf( a );
-            disk[i].y = y + innerRadius * cosf( a );
-            a += 2 * M_PI /innerSteps;
-        }
-        //a = 0;
-        for( int i = 0; i < (int) outerSteps; i++) {
-            disk[i + (int) innerSteps].x = x + outerRadius * sinf( a );
-            disk[i + (int) innerSteps].y = y + outerRadius * cosf( a );
-            a -= 2 * M_PI / outerSteps;
-        }
-        int npoints[2];
-        npoints[0] = (int) innerSteps;
-        npoints[1] = (int) outerSteps;
-        DrawPolygonsPattern( 2, npoints, disk, textureID, textureSize, 0, 0);
-        delete [] disk;
-    }
-#endif    
-}
 
 void ODDC::StrokeCircle( wxCoord x, wxCoord y, wxCoord radius )
 {
@@ -3302,12 +3272,6 @@ void ODDC::GLDrawBlendData( wxCoord x, wxCoord y, wxCoord w, wxCoord h, int form
 #endif
 }
 
-void ODDC::SetTextureParms( GLint textureId, int width, int height )
-{
-    g_textureId = textureId;
-    g_iTextureWidth = width;
-    g_iTextureHeight = height;
-}
 
 void ODDC::DrawTexture( wxRect texRect, int width, int height, float scaleFactor, wxPoint position, float rotation, wxPoint rPivot)
 {
