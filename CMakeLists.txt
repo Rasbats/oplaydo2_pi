@@ -105,6 +105,7 @@ set (SRC
 		ocpninclude/SelectItem.h
 		src/TexFont.h
 		ocpninclude/timers.h
+		src/globals.h
 	)
 
 # -------- Setup completed, build the plugin --------
