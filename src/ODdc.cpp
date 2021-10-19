@@ -53,7 +53,7 @@
 
 #include "oplaydo2_pi.h"
 #include "ODdc.h"
-#include "GL/gl.h"
+
 
 #define __CALL_CONVENTION
 
