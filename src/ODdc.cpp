@@ -54,6 +54,9 @@
 #include "oplaydo2_pi.h"
 #include "ODdc.h"
 
+#ifndef __OCPN__ANDROID__
+#include "GL/gl.h"
+#endif
 
 #define __CALL_CONVENTION
 
