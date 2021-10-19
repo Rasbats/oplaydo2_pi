@@ -41,16 +41,16 @@ message(STATUS "Building: ${BUILD_TYPE}")
 
 
 set(OCPN_TEST_REPO
-    "miker-rossiter/oplaydo2-alpha"
+    "mike-rossiter/oplaydo2-alpha"
     CACHE STRING "Default repository for untagged builds"
 )
 set(OCPN_BETA_REPO
-    "miker-rossiter/oplaydo2-beta"
+    "mike-rossiter/oplaydo2-beta"
     CACHE STRING 
     "Default repository for tagged builds matching 'beta'"
 )
 set(OCPN_RELEASE_REPO
-    "miker-rossiter/oplaydo2-prod"
+    "mike-rossiter/oplaydo2-prod"
     CACHE STRING 
     "Default repository for tagged builds not matching 'beta'"
 )
