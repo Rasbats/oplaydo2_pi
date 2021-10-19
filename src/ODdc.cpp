@@ -56,6 +56,7 @@
 
 #ifndef __OCPN__ANDROID__
 #include "GL/gl.h"
+#include "GL/gl_private.h"
 #endif
 
 #define __CALL_CONVENTION
