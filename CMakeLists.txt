@@ -34,14 +34,6 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Use local version of GLU library
-set(USE_LOCAL_GLU TRUE)
-# Prefer libGL.so to libOpenGL.so, see CMP0072
-set(OpenGL_GL_PREFERENCE "LEGACY")
-option(USE_GL "Enable OpenGL support" ON)
-message(STATUS "${CMLOC}USE_GL: ${USE_GL}")
-
-
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 message(STATUS "Building: ${BUILD_TYPE}")
 
@@ -49,16 +41,16 @@ message(STATUS "Building: ${BUILD_TYPE}")
 
 
 set(OCPN_TEST_REPO
-    "mike-rossiter/oplaydo2-alpha"
+    "miker-rossiter/oplaydo2-alpha"
     CACHE STRING "Default repository for untagged builds"
 )
 set(OCPN_BETA_REPO
-    "mike-rossiter/oplaydo2-beta"
+    "miker-rossiter/oplaydo2-beta"
     CACHE STRING 
     "Default repository for tagged builds matching 'beta'"
 )
 set(OCPN_RELEASE_REPO
-    "mike-rossiter/oplaydo2-prod"
+    "miker-rossiter/oplaydo2-prod"
     CACHE STRING 
     "Default repository for tagged builds not matching 'beta'"
 )
@@ -69,7 +61,7 @@ include(PluginOptions)
 #
 # -------  Plugin setup --------
 #
-project(oplaydo2_pi VERSION 0.0.0.2)
+project(oplaydo2_pi VERSION 0.0.0.1)
 set(PKG_PRERELEASE "")  # Empty, or a tag like 'beta'
 
 set(DISPLAY_NAME oplaydo2)    # Dialogs, installer artifacts, ...
@@ -96,21 +88,10 @@ set (SRC
 	    src/oplaydo2gui_impl.h
 	    src/NavFunc.h
 	    src/NavFunc.cpp
-		src/ODdc.h
-		src/ODdc.cpp
-		src/ODShaders.cpp
-		src/ODShaders.h
-		ocpninclude/bbox.h
-		ocpninclude/Hyperlink.h
-		ocpninclude/SelectItem.h
-		src/TexFont.h
-		ocpninclude/timers.h
-		src/globals.h
 	)
 
 # -------- Setup completed, build the plugin --------
 #
-
 add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC})
 include_directories(BEFORE ${CMAKE_BINARY_DIR}/include)
 
