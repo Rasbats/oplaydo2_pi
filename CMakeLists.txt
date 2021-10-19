@@ -106,24 +106,12 @@ set (SRC
 		src/TexFont.h
 		ocpninclude/timers.h
 	)
-set(LIBHDRS
-    src/GL/gl.h
-    src/GL/gl_private.h
-    src/GL/glext.h
-    src/GL/glu.h
-)
+
 # -------- Setup completed, build the plugin --------
 #
 
-set (EXTINCLUDE_DIR ${EXTINCLUDE_DIR} extinclude)
-set (LIBS_DIR ${LIBS_DIR} libs/GL)
-
-
-add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC} ${LIBHDRS})
+add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC})
 include_directories(BEFORE ${CMAKE_BINARY_DIR}/include)
-include_directories(BEFORE ${CMAKE_BINARY_DIR}/ocpninclude)
-include_directories(BEFORE ${CMAKE_BINARY_DIR}/${EXTINCLUDE_DIR})
-include_directories(BEFORE ${CMAKE_BINARY_DIR}/${LIBS_DIR})
 
 add_subdirectory("libs/api-16")
 target_link_libraries(${CMAKE_PROJECT_NAME} ocpn::api)
