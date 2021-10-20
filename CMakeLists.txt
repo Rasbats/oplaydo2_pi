@@ -98,8 +98,6 @@ set (SRC
 	    src/NavFunc.cpp
 		src/ODdc.cpp
 		src/ODdc.h
-       src/ODShaders.cpp
-       src/ODShaders.h	
 	)
 	
 set(LIBHDRS
@@ -120,6 +118,9 @@ include_directories(BEFORE ${CMAKE_BINARY_DIR}/ocpnsrc/glu/include)
 include_directories(BEFORE ${CMAKE_BINARY_DIR}/libs/)
 include_directories(BEFORE ${CMAKE_BINARY_DIR}/libs/GL)
 include_directories(BEFORE ${CMAKE_BINARY_DIR}/${EXTINCLUDE_DIR})
+ if (QT_ANDROID)
+    include_directories( ${CMAKE_BINARY_DIR}/extinclude/GLES2)
+ endif ()
 
 add_subdirectory("libs/api-16")
 target_link_libraries(${CMAKE_PROJECT_NAME} ocpn::api)
