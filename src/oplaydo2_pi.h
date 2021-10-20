@@ -49,7 +49,7 @@
 #else
 
 #ifdef USE_ANDROID_GLES2
-#include <gl2.h>
+#include "extinclude/GLES2/gl2.h"
 #endif
 
 #ifndef __OCPN__ANDROID__
