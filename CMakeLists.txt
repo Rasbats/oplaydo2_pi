@@ -34,6 +34,14 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Use local version of GLU library
+set(USE_LOCAL_GLU TRUE)
+# Prefer libGL.so to libOpenGL.so, see CMP0072
+set(OpenGL_GL_PREFERENCE "LEGACY")
+option(USE_GL "Enable OpenGL support" ON)
+message(STATUS "${CMLOC}USE_GL: ${USE_GL}")
+
+
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 message(STATUS "Building: ${BUILD_TYPE}")
 
@@ -88,12 +96,30 @@ set (SRC
 	    src/oplaydo2gui_impl.h
 	    src/NavFunc.h
 	    src/NavFunc.cpp
+		src/ODdc.cpp
+		src/ODdc.h
+       src/ODShaders.cpp
+       src/ODShaders.h	
 	)
+	
+set(LIBHDRS
+    libs/GL/gl.h
+    libs/GL/gl_private.h
+    libs/GL/glext.h
+    libs/GL/glu.h
+)
 
+set (EXTINCLUDE_DIR ${EXTINCLUDE_DIR} extinclude)
 # -------- Setup completed, build the plugin --------
 #
+
 add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC})
 include_directories(BEFORE ${CMAKE_BINARY_DIR}/include)
+include_directories(BEFORE ${CMAKE_BINARY_DIR}/ocpninclude)
+include_directories(BEFORE ${CMAKE_BINARY_DIR}/ocpnsrc/glu/include)
+include_directories(BEFORE ${CMAKE_BINARY_DIR}/libs/)
+include_directories(BEFORE ${CMAKE_BINARY_DIR}/libs/GL)
+include_directories(BEFORE ${CMAKE_BINARY_DIR}/${EXTINCLUDE_DIR})
 
 add_subdirectory("libs/api-16")
 target_link_libraries(${CMAKE_PROJECT_NAME} ocpn::api)
@@ -132,6 +158,7 @@ if (NOT ${BUILD_TYPE} STREQUAL "flatpak")
   include(PluginPackage)
   if (QT_ANDROID)
     include(AndroidLibs)
+    include_directories( ${CMAKE_BINARY_DIR}/extinclude/GLES2)
   else ()
     include(PluginLibs)
   endif ()
