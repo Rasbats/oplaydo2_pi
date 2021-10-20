@@ -37,7 +37,6 @@
 #endif
 
 #ifdef USE_ANDROID_GLES2
-#include "ODShaders.h"
 #include <gl2.h>
 #include "linmath.h"
 #endif
