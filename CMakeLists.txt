@@ -98,6 +98,7 @@ set (SRC
 	    src/NavFunc.cpp
 		src/ODdc.cpp
 		src/ODdc.h
+		src/cutil.h
 	)
 	
 set(LIBHDRS
