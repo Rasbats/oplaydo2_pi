@@ -102,10 +102,10 @@ set (SRC
 	)
 	
 set(LIBHDRS
-    libs/GL/gl.h
-    libs/GL/gl_private.h
-    libs/GL/glext.h
-    libs/GL/glu.h
+    src/GL/gl.h
+    src/GL/gl_private.h
+    src/GL/glext.h
+    src/GL/glu.h
 )
 
 set (EXTINCLUDE_DIR ${EXTINCLUDE_DIR} extinclude)
