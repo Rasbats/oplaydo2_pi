@@ -32,6 +32,7 @@
 #define __ODDC_H__
 
 #include "TexFont.h"
+#include "cutil.h"
 #include <vector>
 
 #ifdef ocpnUSE_GL
