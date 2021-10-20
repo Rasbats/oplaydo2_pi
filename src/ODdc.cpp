@@ -37,7 +37,7 @@
 #endif
 
 #ifdef USE_ANDROID_GLES2
-#include "GLES2/gl2.h"
+#include "extinclude/GLES2/gl2.h"
 #include "linmath.h"
 #endif
 
