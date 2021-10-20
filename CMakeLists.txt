@@ -112,7 +112,7 @@ set (EXTINCLUDE_DIR ${EXTINCLUDE_DIR} extinclude)
 # -------- Setup completed, build the plugin --------
 #
 
-add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC})
+add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC} ${LIBHDRS})
 include_directories(BEFORE ${CMAKE_BINARY_DIR}/include)
 include_directories(BEFORE ${CMAKE_BINARY_DIR}/ocpninclude)
 include_directories(BEFORE ${CMAKE_BINARY_DIR}/ocpnsrc/glu/include)
