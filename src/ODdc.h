@@ -33,6 +33,7 @@
 
 #include "TexFont.h"
 #include "cutil.h"
+#include "ODUtils.h"
 #include <vector>
 
 #ifdef ocpnUSE_GL
