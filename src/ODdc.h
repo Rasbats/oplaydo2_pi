@@ -144,6 +144,7 @@ public:
     vec4         s_odc_tess_color;
     ViewPort    *s_odc_tessVP;
     GLint        s_odc_activeProgram;
+    float g_GLMinSymbolLineWidth;
 
 #endif
     GLUtesselator *m_tobj;
