@@ -37,6 +37,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 message(STATUS "Building: ${BUILD_TYPE}")
 
+# Prefer libGL.so to libOpenGL.so, see CMP0072
+set(OpenGL_GL_PREFERENCE "LEGACY")
+# Don't use local version of GLU library
+set(USE_LOCAL_GLU FALSE)
+option(USE_GL "Enable OpenGL support" ON)
+message(STATUS "${CMLOC}USE_GL: ${USE_GL}")
+
 # -------- Options ----------
 
 
@@ -91,8 +98,16 @@ set (SRC
 		src/pi_TexFont.cpp
 		src/pi_TexFont.h
 		src/pi_ocpndc.cpp
-		src/pi_ocpndc.h		
+		src/pi_ocpndc.h	
 )
+
+SET(LIBHDRS			
+			libs/GL/gl.h
+			libs/GL/gl_private.h
+			libs/GL/glext.h
+			libs/GL/glu.h
+)
+
 
 if (QT_ANDROID)
   set(SRC_oplaydo2 ${SRC_oplaydo2} src/pi_shaders.h)
@@ -101,8 +116,10 @@ endif (QT_ANDROID)
 
 # -------- Setup completed, build the plugin --------
 #
-add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC} ${SRC_oplaydo2})
+add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC} ${SRC_oplaydo2} ${LIBHDRS} )
 include_directories(BEFORE ${CMAKE_BINARY_DIR}/include)
+include_directories(BEFORE ${PROJECT_SOURCE_DIR}/libs)
+include_directories(BEFORE ${PROJECT_SOURCE_DIR}/libs/GL)
 
 add_subdirectory("libs/api-16")
 target_link_libraries(${CMAKE_PROJECT_NAME} ocpn::api)
@@ -158,7 +175,9 @@ if (NOT ${BUILD_TYPE} STREQUAL "flatpak")
   
   add_subdirectory("libs/wxJSON")
   target_link_libraries(${PACKAGE_NAME} ocpn::wxjson)
+
 endif ()
+
 
 configure_file(
   ${CMAKE_SOURCE_DIR}/config.h.in ${CMAKE_BINARY_DIR}/include//config.h

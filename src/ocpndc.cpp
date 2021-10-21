@@ -33,10 +33,9 @@
 
 #include "config.h"
 
-#include "dychart.h"
+
 #include "ocpn_plugin.h"
-#include "chcanv.h"
-#include "chart1.h"
+
 #include "linmath.h"
 
 #ifdef __MSVC__

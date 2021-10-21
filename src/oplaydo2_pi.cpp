@@ -35,6 +35,7 @@
 #include "oplaydo2gui_impl.h"
 #include "oplaydo2gui.h"
 
+float g_piGLMinSymbolLineWidth;
 
 // the class factories, used to create and destroy instances of the PlugIn
 
