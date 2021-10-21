@@ -34,14 +34,6 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Use local version of GLU library
-set(USE_LOCAL_GLU TRUE)
-# Prefer libGL.so to libOpenGL.so, see CMP0072
-set(OpenGL_GL_PREFERENCE "LEGACY")
-option(USE_GL "Enable OpenGL support" ON)
-message(STATUS "${CMLOC}USE_GL: ${USE_GL}")
-
-
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 message(STATUS "Building: ${BUILD_TYPE}")
 
@@ -96,32 +88,21 @@ set (SRC
 	    src/oplaydo2gui_impl.h
 	    src/NavFunc.h
 	    src/NavFunc.cpp
-		src/ODdc.cpp
-		src/ODdc.h
-		src/cutil.h
-	)
-	
-set(LIBHDRS
-    src/GL/gl.h
-    src/GL/gl_private.h
-    src/GL/glext.h
-    src/GL/glu.h
+		src/pi_TexFont.cpp
+		src/pi_TexFont.h
+		src/pi_ocpndc.cpp
+		src/pi_ocpndc.h		
 )
 
-set (EXTINCLUDE_DIR ${EXTINCLUDE_DIR} extinclude)
+if (QT_ANDROID)
+  set(SRC_oplaydo2 ${SRC_oplaydo2} src/pi_shaders.h)
+  set(SRC_oplaydo2 ${SRC_oplaydo2} src/pi_shaders.cpp)
+endif (QT_ANDROID)
+
 # -------- Setup completed, build the plugin --------
 #
-
-add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC} ${LIBHDRS})
+add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC} ${SRC_oplaydo2})
 include_directories(BEFORE ${CMAKE_BINARY_DIR}/include)
-include_directories(BEFORE ${CMAKE_BINARY_DIR}/ocpninclude)
-include_directories(BEFORE ${CMAKE_BINARY_DIR}/ocpnsrc/glu/include)
-include_directories(BEFORE ${CMAKE_BINARY_DIR}/libs/)
-include_directories(BEFORE ${CMAKE_BINARY_DIR}/libs/GL)
-include_directories(BEFORE ${CMAKE_BINARY_DIR}/${EXTINCLUDE_DIR})
- if (QT_ANDROID)
-    include_directories( ${CMAKE_BINARY_DIR}/extinclude/GLES2)
- endif ()
 
 add_subdirectory("libs/api-16")
 target_link_libraries(${CMAKE_PROJECT_NAME} ocpn::api)
@@ -139,6 +120,8 @@ string(REGEX REPLACE "\([0-9]\)\.\([0-9]\).*" "ov\\1\\2"
 if (oplaydo2_USE_SVG)
   add_definitions(-Doplaydo2_USE_SVG)
 endif ()
+
+add_definitions(-DocpnUSE_GL)
 
 # Set up targets. Targets sets up a recursive call with BUILD_TYPE set to
 # 'flatpak', 'pkg' or 'tarball'. The initial call without BUILD_TYPE ends
@@ -160,7 +143,6 @@ if (NOT ${BUILD_TYPE} STREQUAL "flatpak")
   include(PluginPackage)
   if (QT_ANDROID)
     include(AndroidLibs)
-    include_directories( ${CMAKE_BINARY_DIR}/extinclude/GLES2)
   else ()
     include(PluginLibs)
   endif ()
