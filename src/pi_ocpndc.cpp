@@ -1386,7 +1386,7 @@ void pi_ocpnDC::DrawPolygon(int n, wxPoint points[], wxCoord xoffset,
     glEnable(GL_BLEND);
 
     if (n > 4)
-      //DrawPolygonTessellated(n, points, xoffset, yoffset);
+      {;}//DrawPolygonTessellated(n, points, xoffset, yoffset);
     else {  // n = 3 or 4, most common case for pre-tesselated shapes
 
       //  Grow the work buffer as necessary
