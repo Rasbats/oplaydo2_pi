@@ -101,14 +101,6 @@ set (SRC
 		src/pi_ocpndc.h	
 )
 
-SET(LIBHDRS			
-			libs/GL/gl.h
-			libs/GL/gl_private.h
-			libs/GL/glext.h
-			libs/GL/glu.h
-)
-
-
 if (QT_ANDROID)
   set(SRC_oplaydo2 ${SRC_oplaydo2} src/pi_shaders.h)
   set(SRC_oplaydo2 ${SRC_oplaydo2} src/pi_shaders.cpp)
@@ -116,7 +108,7 @@ endif (QT_ANDROID)
 
 # -------- Setup completed, build the plugin --------
 #
-add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC} ${SRC_oplaydo2} ${LIBHDRS} )
+add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC} ${SRC_oplaydo2})
 include_directories(BEFORE ${CMAKE_BINARY_DIR}/include)
 include_directories(BEFORE ${PROJECT_SOURCE_DIR}/libs)
 
