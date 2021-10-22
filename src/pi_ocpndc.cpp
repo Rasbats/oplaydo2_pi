@@ -58,6 +58,9 @@
 #ifdef __OCPN__ANDROID__
 #include <qopengl.h>
 #include "GL/gl_private.h"
+#elif defined(TARGET_OS_MAC)
+#include "OpenGL/gl.h"
+#include "OpenGL/glu.h"
 #else
 #include "GL/gl.h"
 #include "GL/glu.h"
