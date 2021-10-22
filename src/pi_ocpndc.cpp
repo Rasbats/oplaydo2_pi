@@ -49,6 +49,12 @@
 
 #include "pi_ocpndc.h"
 #include "cutil.h"
+
+#ifdef USE_ANDROID_GLES2
+#include "pi_shaders.h"
+#include <gl2.h>
+#endif
+
 #include "GL/gl.h"
 
 #ifdef __OCPN__ANDROID__
@@ -57,11 +63,6 @@
 #else
 #include "GL/gl.h"
 #include "GL/glu.h"
-#endif
-
-#ifdef USE_ANDROID_GLES2
-#include "pi_shaders.h"
-#include <gl2.h>
 #endif
 
 #ifdef __OCPN__ANDROID__
