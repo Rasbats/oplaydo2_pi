@@ -34,6 +34,8 @@
 #include <gl2.h>
 #include "linmath.h"
 #include "pi_shaders.h"
+#elif defined(TARGET_OS_MAC)
+#include <OpenGL/gl.h>
 #else
 #include <GL/gl.h>
 #endif

@@ -49,19 +49,22 @@
 
 #include "pi_ocpndc.h"
 #include "cutil.h"
-#include "GL/gl.h"
-
-#ifdef __OCPN__ANDROID__
-#include <qopengl.h>
-#include "GL/gl_private.h"
-#else
-#include "GL/gl.h"
-#include "GL/glu.h"
-#endif
 
 #ifdef USE_ANDROID_GLES2
 #include "pi_shaders.h"
 #include <gl2.h>
+#endif
+
+#ifdef __OCPN__ANDROID__
+#include <qopengl.h>
+#include "GL/gl_private.h"
+#elif defined(TARGET_OS_MAC)
+#include "OpenGL/gl.h"
+#include "OpenGL/glu.h"
+#else
+#include "GL/gl.h"
+#include "GL/glu.h"
+#include "GL/glext.h"
 #endif
 
 #ifdef __OCPN__ANDROID__
@@ -75,7 +78,6 @@ wxArrayPtrVoid pi_gTesselatorVertices;
 extern GLint pi_color_tri_shader_program;
 extern GLint pi_circle_filled_shader_program;
 #endif
-
 int NextPow2(int size) {
   int n = size - 1;  // compute dimensions needed as next larger power of 2
   int shift = 1;
@@ -1388,7 +1390,7 @@ void pi_ocpnDC::DrawPolygon(int n, wxPoint points[], wxCoord xoffset,
     glEnable(GL_BLEND);
 
     if (n > 4)
-      //DrawPolygonTessellated(n, points, xoffset, yoffset);
+      {;}//DrawPolygonTessellated(n, points, xoffset, yoffset);
     else {  // n = 3 or 4, most common case for pre-tesselated shapes
 
       //  Grow the work buffer as necessary
