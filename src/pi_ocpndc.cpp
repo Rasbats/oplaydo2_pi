@@ -55,8 +55,6 @@
 #include <gl2.h>
 #endif
 
-#include "GL/gl.h"
-
 #ifdef __OCPN__ANDROID__
 #include <qopengl.h>
 #include "GL/gl_private.h"
@@ -76,7 +74,6 @@ wxArrayPtrVoid pi_gTesselatorVertices;
 extern GLint pi_color_tri_shader_program;
 extern GLint pi_circle_filled_shader_program;
 #endif
-
 int NextPow2(int size) {
   int n = size - 1;  // compute dimensions needed as next larger power of 2
   int shift = 1;
