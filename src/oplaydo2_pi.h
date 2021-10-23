@@ -40,6 +40,7 @@
 #include "ocpn_plugin.h" //Required for OCPN plugin functions
 #include "oplaydo2gui_impl.h"
 #include "oplaydo2gui.h"
+#include "pi_OverlayFactory.h"
 
 #include "config.h"
 
@@ -80,6 +81,9 @@ public:
 
 
 //    The override PlugIn Methods
+	  bool RenderOverlay(wxDC &dc, PlugIn_ViewPort *vp);
+	  bool RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp);
+
 
 //    Other public methods
       void SetCalculatorDialogX         (int x){ m_route_dialog_x = x;};
@@ -89,6 +93,9 @@ public:
 	  void Onoplaydo2DialogClose();
 
 	  wxWindow         *m_parent_window;
+
+	   pi_OverlayFactory *m_pOverlayFactory;
+       pi_OverlayFactory *GetOverlayFactory() { return m_pOverlayFactory; }
 	  
 private:
       
@@ -107,6 +114,11 @@ private:
 	  bool             m_boplaydo2ShowIcon;
 	  bool             m_bShowoplaydo2;
 	  wxBitmap			m_panelBitmap;
+
+	 bool DoRenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp,
+                         int canvasIndex);
+     bool DoRenderOverlay(wxDC &dc, PlugIn_ViewPort *vp, int canvasIndex);
+
 };
 
 #endif

@@ -228,6 +228,10 @@ void oplaydo2_pi::OnToolbarToolCallback(int id)
       {
             m_pDialog = new Dlg(m_parent_window, this);
             m_pDialog->Move(wxPoint(m_route_dialog_x, m_route_dialog_y));
+
+			 // Create the drawing factory
+			m_pOverlayFactory = new pi_OverlayFactory( *m_pDialog );
+			m_pOverlayFactory->SetParentSize( m_display_width, m_display_height);		
       }
 
 	  m_pDialog->Fit();
@@ -298,4 +302,27 @@ void oplaydo2_pi::Onoplaydo2DialogClose()
 
 }
 
+bool oplaydo2_pi::RenderOverlay(wxDC &dc, PlugIn_ViewPort *vp) 
+{ 
+		if(!m_pDialog ||
+       !m_pDialog->IsShown() ||
+       !m_pOverlayFactory)
+        return false;
 
+    m_pDialog->SetViewPort( vp );
+    m_pOverlayFactory->RenderpiOverlay ( dc, vp );
+    return true;
+}
+
+bool oplaydo2_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp) 
+{
+  
+	if(!m_pDialog ||
+       !m_pDialog->IsShown() ||
+       !m_pOverlayFactory)
+        return false;
+
+    m_pDialog->SetViewPort( vp );
+    m_pOverlayFactory->RenderGLpiOverlay ( pcontext, vp );
+    return true;
+}

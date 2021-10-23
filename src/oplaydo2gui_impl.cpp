@@ -36,6 +36,9 @@
 #include <list>
 #include <cmath>
 
+class wxGraphicsContext;
+class oplaydo2_pi;
+
 
 #define FAIL(X) do { error = X; goto failed; } while(0)
 
@@ -94,6 +97,18 @@ void Dlg::OnClose(wxCloseEvent& event)
 {	
 	pPlugIn->Onoplaydo2DialogClose();
 }
+
+void Dlg::OnDraw(wxCommandEvent& event)
+{	
+	my_points.clear();
+	Position newPos;
+	newPos.myLat = 55.0;
+	newPos.myNextLat = 56.0;
+	newPos.myLon = -4.0;
+	newPos.myNextLon = -5.0;
+	my_points.push_back(newPos);
+}
+
 
 bool Dlg::OpenXML()
 {
@@ -480,4 +495,11 @@ void Dlg::Calculate( wxCommandEvent& event, bool write_file, int Pattern  ){
         wxMessageBox(_("Error in calculation. Please check input!") );
     }
   }
+}
+
+void Dlg::SetViewPort( PlugIn_ViewPort *vp )
+{
+    if(m_vp == vp)  return;
+
+    m_vp = new PlugIn_ViewPort(*vp);
 }

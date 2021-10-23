@@ -34,7 +34,7 @@
 
 
 #include "oplaydo2gui.h"
-#include "oplaydo2_pi.h"
+
 
 #include "NavFunc.h"
 #include "tinyxml.h"
@@ -44,6 +44,8 @@
 
 using namespace std;
 
+class pi_OverlayFactory;
+class PlugIn_ViewPort;
 class oplaydo2_pi;
 class Position;
 
@@ -56,7 +58,7 @@ public:
 	wxWindow *pParent;
 	oplaydo2_pi *pPlugIn;
 
-	
+	void SetViewPort(PlugIn_ViewPort *vp);
 	
 	    void OnPSGPX( wxCommandEvent& event );		
 		bool OpenXML();
@@ -71,6 +73,8 @@ public:
 
 		wxString rte_start;
 	    wxString rte_end;
+		void OnDraw(wxCommandEvent& event);
+
 
 private:
 	    void OnClose( wxCloseEvent& event );
@@ -78,7 +82,8 @@ private:
         bool error_found;
         bool dbg;
 
-		wxString     m_gpx_path;		
+		wxString     m_gpx_path;	
+		PlugIn_ViewPort  *m_vp;
 };
 
 
@@ -87,6 +92,7 @@ class Position
 public:
 
     wxString lat, lon, wpt_num;
+	double myLat, myLon, myNextLat, myNextLon;
     Position *prev, *next; /* doubly linked circular list of positions */
     int routepoint;
 

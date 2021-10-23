@@ -15,14 +15,14 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/textctrl.h>
-#include <wx/sizer.h>
-#include <wx/choice.h>
-#include <wx/statline.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
 #include <wx/icon.h>
 #include <wx/button.h>
+#include <wx/textctrl.h>
+#include <wx/sizer.h>
+#include <wx/choice.h>
+#include <wx/statline.h>
 #include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -37,6 +37,7 @@ class m_Dialog : public wxDialog
 
 	protected:
 		wxStaticText* m_staticText1511;
+		wxButton* m_button2;
 		wxStaticText* m_staticText32111112;
 		wxStaticText* m_staticText33111111;
 		wxStaticText* m_staticText32111111;
@@ -48,6 +49,7 @@ class m_Dialog : public wxDialog
 
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
+		virtual void OnDraw( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnPSGPX( wxCommandEvent& event ) { event.Skip(); }
 
 
@@ -56,7 +58,7 @@ class m_Dialog : public wxDialog
 		wxChoice* m_Nship;
 		wxTextCtrl* m_Route;
 
-		m_Dialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("oplaydo2"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
+		m_Dialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("DR"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 		~m_Dialog();
 
 };

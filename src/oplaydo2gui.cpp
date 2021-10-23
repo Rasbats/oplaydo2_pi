@@ -16,11 +16,16 @@ m_Dialog::m_Dialog( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer9111;
 	bSizer9111 = new wxBoxSizer( wxVERTICAL );
 
-	m_staticText1511 = new wxStaticText( this, wxID_ANY, wxT("oplaydo2 Options"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText1511 = new wxStaticText( this, wxID_ANY, wxT("DR Options"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText1511->Wrap( -1 );
 	m_staticText1511->SetFont( wxFont( 20, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Arial") ) );
 
 	bSizer9111->Add( m_staticText1511, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
+
+	m_button2 = new wxButton( this, wxID_ANY, wxT("Draw"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_button2->SetFont( wxFont( 14, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Arial") ) );
+
+	bSizer9111->Add( m_button2, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
 
 	wxBoxSizer* bSizer1311;
 	bSizer1311 = new wxBoxSizer( wxVERTICAL );
@@ -87,7 +92,7 @@ m_Dialog::m_Dialog( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_button3111 = new wxButton( this, wxID_ANY, wxT("Generate GPX"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer71->Add( m_button3111, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
 
-	m_staticText71 = new wxStaticText( this, wxID_ANY, wxT("Imports an existing GPX file\n... then makes and saves a new route file\n... (GPX) with added oplaydo2 positions"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText71 = new wxStaticText( this, wxID_ANY, wxT("Imports an existing GPX file\n... then makes and saves a new route file\n... (GPX) with added DR positions"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText71->Wrap( -1 );
 	bSizer71->Add( m_staticText71, 0, wxALL, 5 );
 
@@ -103,6 +108,7 @@ m_Dialog::m_Dialog( wxWindow* parent, wxWindowID id, const wxString& title, cons
 
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( m_Dialog::OnClose ) );
+	m_button2->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( m_Dialog::OnDraw ), NULL, this );
 	m_button3111->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( m_Dialog::OnPSGPX ), NULL, this );
 }
 
@@ -110,6 +116,7 @@ m_Dialog::~m_Dialog()
 {
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( m_Dialog::OnClose ) );
+	m_button2->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( m_Dialog::OnDraw ), NULL, this );
 	m_button3111->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( m_Dialog::OnPSGPX ), NULL, this );
 
 }
