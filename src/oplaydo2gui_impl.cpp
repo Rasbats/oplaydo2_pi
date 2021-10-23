@@ -29,6 +29,7 @@
 #include "oplaydo2gui.h"
 #include "oplaydo2_pi.h"
 #include "icons.h"
+#include "wx/graphics.h"
 
 #include <wx/progdlg.h>
 #include <wx/wx.h>
