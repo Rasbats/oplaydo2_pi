@@ -107,7 +107,6 @@ endif ()
 #
 add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC})
 include_directories(BEFORE ${CMAKE_BINARY_DIR}/include)
-include_directories(BEFORE ${PROJECT_SOURCE_DIR}/libs)
 
 add_subdirectory("libs/api-16")
 target_link_libraries(${CMAKE_PROJECT_NAME} ocpn::api)
