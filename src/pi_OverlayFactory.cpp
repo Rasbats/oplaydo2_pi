@@ -437,10 +437,17 @@ void pi_OverlayFactory::DrawGLLine( double x1, double y1, double x2, double y2, 
             glEnable( GL_BLEND );
             glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
             glHint( GL_LINE_SMOOTH_HINT, GL_NICEST );
-            glLineWidth( width );
 
-			glLineStipple(3, 0xAAAA); 
-			glEnable(GL_LINE_STIPPLE);
+			#ifndef __OCPN__ANDROID__
+    //      Enable anti-aliased lines, at best quality
+				glEnable(GL_LINE_SMOOTH);
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+				glLineWidth(2);
+			#else
+				glLineWidth(5);  // 5 pixels for dense displays
+			#endif
 
             glBegin( GL_LINES );
             glVertex2d( x1, y1 );
