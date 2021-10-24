@@ -1666,7 +1666,7 @@ void pi_ocpnDC::StrokePolygon(int n, wxPoint points[], wxCoord xoffset,
 #endif
     DrawPolygon(n, points, xoffset, yoffset, scale);
 }
-
+/*
 void pi_ocpnDC::DrawBitmap(const wxBitmap &bitmap, wxCoord x, wxCoord y,
                            bool usemask) {
   wxBitmap bmp;
@@ -1675,7 +1675,7 @@ void pi_ocpnDC::DrawBitmap(const wxBitmap &bitmap, wxCoord x, wxCoord y,
     int dy = (y < 0 ? -y : 0);
     int w = bitmap.GetWidth() - dx;
     int h = bitmap.GetHeight() - dy;
-    /* picture is out of viewport */
+    
     if (w <= 0 || h <= 0) return;
     wxBitmap newBitmap = bitmap.GetSubBitmap(wxRect(dx, dy, w, h));
     x += dx;
@@ -1735,7 +1735,7 @@ void pi_ocpnDC::DrawBitmap(const wxBitmap &bitmap, wxCoord x, wxCoord y,
       delete[](e);
     } else {
       glRasterPos2i(x, y);
-      glPixelZoom(1, -1); /* draw data from top to bottom */
+      glPixelZoom(1, -1);
       if (image.GetData())
         glDrawPixels(w, h, GL_RGB, GL_UNSIGNED_BYTE, image.GetData());
       glPixelZoom(1, 1);
@@ -1745,7 +1745,7 @@ void pi_ocpnDC::DrawBitmap(const wxBitmap &bitmap, wxCoord x, wxCoord y,
 
 #endif
 }
-
+*/
 void pi_ocpnDC::DrawText(const wxString &text, wxCoord x, wxCoord y) {
   if (dc) dc->DrawText(text, x, y);
 #ifdef ocpnUSE_GL

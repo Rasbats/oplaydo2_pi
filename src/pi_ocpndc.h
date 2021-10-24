@@ -104,7 +104,7 @@ public:
   void StrokePolygon(int n, wxPoint points[], wxCoord xoffset = 0,
                      wxCoord yoffset = 0, float scale = 1.0);
 
-  void DrawBitmap(const wxBitmap &bitmap, wxCoord x, wxCoord y, bool usemask);
+ // void DrawBitmap(const wxBitmap &bitmap, wxCoord x, wxCoord y, bool usemask);
 
   void DrawText(const wxString &text, wxCoord x, wxCoord y);
   void GetTextExtent(const wxString &string, wxCoord *w, wxCoord *h,
