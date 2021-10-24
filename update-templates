@@ -99,15 +99,11 @@ git merge --no-ff --no-commit --allow-unrelated-histories $merge_opt \
 for f in \
     CMakeLists.txt \
     build-deps \
-    buildosx \
-    buildwin \
     config.h.in \
     COPYING \
     data \
     flatpak \
-    libs \
     manual \
-    mingw \
     po \
     README.md \
     src
@@ -119,6 +115,17 @@ do
             git rm --quiet -f $ff
         done
     fi
+done
+
+# Restore private libraries in libs, but not the generic ones
+for d in libs/*; do
+    case "$d" in
+      api*|AndroidHeaders|WindowsHeaders)
+          continue
+          ;;
+      *)  git checkout HEAD $d
+          ;;
+    esac
 done
 
 
@@ -141,6 +148,23 @@ fi
 for f in $(git diff --staged --name-only --diff-filter=A); do
     git add $f
 done
+
+# Add diff for upstream's CMakeLists.txt as comment here:
+if [ -f cmake/Templateversion ]; then
+    prev_commit=$(sed -n '/commit:/s/.*: *//p' cmake/TemplateVersion)
+else
+    prev_commit='v2.6.2.0'
+fi
+git diff $prev_commit $source_treeish CMakeLists.txt | sed 's/^/# /' \
+    >>  CMakeLists.txt
+
+# Same diff comment for the flatpak manifest:
+src_manifest=flatpak/org.opencpn.OpenCPN.Plugin.shipdriver.yaml
+our_manifest=$(echo flatpak/org.opencpn.OpenCPN.Plugin.*.yaml)
+git checkout $source_treeish $src_manifest
+git diff $prev_commit $source_treeish $src_manifest | sed 's/^/# /' \
+    >> $our_manifest
+git rm -f $src_manifest
 
 
 # Create or update version file
