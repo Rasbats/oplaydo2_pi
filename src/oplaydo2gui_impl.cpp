@@ -40,33 +40,20 @@
 
 #define FAIL(X) do { error = X; goto failed; } while(0)
 
-Dlg::Dlg(wxWindow *parent, oplaydo2_pi *ppi)
-	: m_Dialog(parent)
+Dlg::Dlg(wxWindow* parent, wxWindowID id, const wxString& title,
+    const wxPoint& pos, const wxSize& size, long style)
+    :m_Dialog(parent, id, title, pos, size, style)
 {
 	this->Fit();
 	dbg = false; //for debug output set to true
 	
-	pPlugIn = ppi;
+
 	pParent = parent;
 
-	 wxFileName fn;
-	  wxString tmp_path;
-
-	  tmp_path = GetPluginDataDir("oplaydo2_pi");
-	  fn.SetPath(tmp_path);
-	  fn.AppendDir(_T("data"));
-	  fn.SetFullName("blank.ico");
-
-	  wxString blank_name = fn.GetFullPath();
-
-	  wxIcon icon(blank_name, wxBITMAP_TYPE_ICO);
-      //SetIcon(icon);
+	 
 }
 
-Dlg::~Dlg()
-{
-	
-}
+
 
 void Dlg::Addpoint(TiXmlElement* Route, wxString ptlat, wxString ptlon, wxString ptname, wxString ptsym, wxString pttype){
 //add point

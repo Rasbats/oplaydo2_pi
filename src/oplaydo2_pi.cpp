@@ -36,11 +36,10 @@
 #include "oplaydo2gui.h"
 
 #ifndef __OCPN__ANDROID__
-//#include <GL/gl.h>
-//#include <GL/glu.h>
+
 #else
-//#include "qopengl.h"  // this gives us the qt runtime gles2.h
-//#include "GL/gl_private.h"
+#include "qopengl.h"  // this gives us the qt runtime gles2.h
+#include "GL/gl_private.h"
 #endif
 
 
@@ -235,7 +234,7 @@ void oplaydo2_pi::OnToolbarToolCallback(int id)
     
 	if(NULL == m_pDialog)
       {
-            m_pDialog = new Dlg(m_parent_window, this);
+            m_pDialog = new Dlg(m_parent_window);
             m_pDialog->Move(wxPoint(m_route_dialog_x, m_route_dialog_y));
       }
 

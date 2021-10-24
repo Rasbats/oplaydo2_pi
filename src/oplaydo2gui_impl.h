@@ -48,11 +48,21 @@ class oplaydo2_pi;
 class Position;
 class pi_ocpnDC;
 
+#ifdef __WXOSX__
+#define OPLAYDO2_DLG_STYLE                                                   \
+    wxCLOSE_BOX | wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxSTAY_ON_TOP
+#else
+#define OPLAYDO2_DLG_STYLE                                                   \
+    wxCLOSE_BOX | wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER
+#endif
+
 class Dlg : public m_Dialog
 {
 public:
-	Dlg(wxWindow *parent, oplaydo2_pi *ppi);
-	~Dlg();
+	Dlg(wxWindow* parent, wxWindowID id = wxID_ANY,
+        const wxString& title = _("oplaydo2"),
+        const wxPoint& pos = wxDefaultPosition,
+        const wxSize& size = wxDefaultSize, long style = OPLAYDO2_DLG_STYLE);
         
 	wxWindow *pParent;
 	oplaydo2_pi *pPlugIn;
