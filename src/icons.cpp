@@ -10,10 +10,11 @@
 wxBitmap *_img_oplaydo2_pi;
 wxBitmap *_img_oplaydo2;
 
-
-#include "ocpn_plugin.h"
-wxString _svg_oplaydo2;
-wxString _svg_oplaydo2_toggled;
+#ifdef oplaydo2_USE_SVG
+	#include "ocpn_plugin.h"
+	wxString _svg_oplaydo2;
+	wxString _svg_oplaydo2_toggled;
+#endif
 
 
 void initialize_images(void)
@@ -27,6 +28,7 @@ void initialize_images(void)
 		_img_oplaydo2 = new wxBitmap(wxImage(sm));
 	}
 
+#ifdef oplaydo2_USE_SVG
 	wxFileName fn;
 	wxString tmp_path;
 
@@ -38,6 +40,7 @@ void initialize_images(void)
 	_svg_oplaydo2 = fn.GetFullPath();
 	fn.SetFullName(_T("oplaydo2_pi_toggled.svg"));
 	_svg_oplaydo2_toggled = fn.GetFullPath();
+#endif
 
 	return;
 }
