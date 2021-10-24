@@ -37,11 +37,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 message(STATUS "Building: ${BUILD_TYPE}")
 
-# Prefer libGL.so to libOpenGL.so, see CMP0072
-set(OpenGL_GL_PREFERENCE "LEGACY")
-option(USE_GL "Enable OpenGL support" ON)
-message(STATUS "USE_GL: ${USE_GL}")
-
 # -------- Options ----------
 
 
