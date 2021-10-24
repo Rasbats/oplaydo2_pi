@@ -49,11 +49,18 @@ Dlg::Dlg(wxWindow *parent, oplaydo2_pi *ppi)
 	pPlugIn = ppi;
 	pParent = parent;
 
-	wxString blank_name = *GetpSharedDataLocation()
-		+ _T("plugins/oplaydo2_pi/data/blank.ico");
+	 wxFileName fn;
+	  wxString tmp_path;
 
-	wxIcon icon(blank_name, wxBITMAP_TYPE_ICO);
-	SetIcon(icon);
+	  tmp_path = GetPluginDataDir("oplaydo2_pi");
+	  fn.SetPath(tmp_path);
+	  fn.AppendDir(_T("data"));
+	  fn.SetFullName("blank.ico");
+
+	  wxString blank_name = fn.GetFullPath();
+
+	  wxIcon icon(blank_name, wxBITMAP_TYPE_ICO);
+      SetIcon(icon);
 }
 
 Dlg::~Dlg()
