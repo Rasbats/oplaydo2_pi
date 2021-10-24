@@ -60,7 +60,7 @@ Dlg::Dlg(wxWindow *parent, oplaydo2_pi *ppi)
 	  wxString blank_name = fn.GetFullPath();
 
 	  wxIcon icon(blank_name, wxBITMAP_TYPE_ICO);
-      SetIcon(icon);
+      //SetIcon(icon);
 }
 
 Dlg::~Dlg()
