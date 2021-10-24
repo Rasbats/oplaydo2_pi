@@ -36,13 +36,6 @@
 #include <list>
 #include <cmath>
 
-#ifndef __OCPN__ANDROID__
-#include <GL/gl.h>
-#include <GL/glu.h>
-#else
-#include "qopengl.h"  // this gives us the qt runtime gles2.h
-#include "GL/gl_private.h"
-#endif
 
 
 #define FAIL(X) do { error = X; goto failed; } while(0)
