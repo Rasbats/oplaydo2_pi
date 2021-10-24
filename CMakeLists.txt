@@ -97,12 +97,6 @@ set (SRC
   src/pi_TexFont.h
   src/pi_ocpndc.cpp
   src/pi_ocpndc.h
-  src/pi_OverlayFactory.cpp
-  src/pi_OverlayFactory.h
-  src/bbox.cpp
-  src/bbox.h	
-
-
 )
 
 if (QT_ANDROID)

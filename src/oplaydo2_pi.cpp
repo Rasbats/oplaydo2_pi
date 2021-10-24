@@ -228,10 +228,6 @@ void oplaydo2_pi::OnToolbarToolCallback(int id)
       {
             m_pDialog = new Dlg(m_parent_window, this);
             m_pDialog->Move(wxPoint(m_route_dialog_x, m_route_dialog_y));
-
-			 // Create the drawing factory
-			m_pOverlayFactory = new pi_OverlayFactory( *m_pDialog );
-			m_pOverlayFactory->SetParentSize( m_display_width, m_display_height);		
       }
 
 	  m_pDialog->Fit();
@@ -302,27 +298,49 @@ void oplaydo2_pi::Onoplaydo2DialogClose()
 
 }
 
-bool oplaydo2_pi::RenderOverlay(wxDC &dc, PlugIn_ViewPort *vp) 
-{ 
-		if(!m_pDialog ||
-       !m_pDialog->IsShown() ||
-       !m_pOverlayFactory)
-        return false;
+void oplaydo2_pi::RenderOverlayBoth(pi_ocpnDC *dc, PlugIn_ViewPort *vp) {
+  if (!m_pDialog) return;
 
-    m_pDialog->SetViewPort( vp );
-    m_pOverlayFactory->RenderpiOverlay ( dc, vp );
-    return true;
+  m_pDialog->Plot(dc, vp, wxColour(60, 255, 30, 220));
 }
 
-bool oplaydo2_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp) 
-{
-  
-	if(!m_pDialog ||
-       !m_pDialog->IsShown() ||
-       !m_pOverlayFactory)
-        return false;
+bool oplaydo2_pi::RenderOverlay(wxDC &dc, PlugIn_ViewPort *vp) {
+  if (!m_pDialog) return true;
 
-    m_pDialog->SetViewPort( vp );
-    m_pOverlayFactory->RenderGLpiOverlay ( pcontext, vp );
-    return true;
+  if (!m_oDC) m_oDC = new pi_ocpnDC();
+
+  m_oDC->SetVP(vp);
+  m_oDC->SetDC(&dc);
+
+  RenderOverlayBoth(m_oDC, vp);
+
+  return true;
 }
+
+bool oplaydo2_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp) {
+  if (!m_pDialog) return true;
+
+  if (!m_oDC) m_oDC = new pi_ocpnDC();
+
+  m_oDC->SetVP(vp);
+  m_oDC->SetDC(NULL);
+
+#ifndef USE_ANDROID_GLES2
+  glPushAttrib(GL_COLOR_BUFFER_BIT | GL_LINE_BIT | GL_ENABLE_BIT |
+               GL_POLYGON_BIT | GL_HINT_BIT);
+
+  glEnable(GL_LINE_SMOOTH);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+#endif
+
+  RenderOverlayBoth(m_oDC, vp);
+
+#ifndef USE_ANDROID_GLES2
+  glPopAttrib();
+#endif
+
+  return true;
+}
+

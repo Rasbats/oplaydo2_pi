@@ -38,8 +38,11 @@
 #include "oplaydo2gui_impl.h"
 #include "oplaydo2gui.h"
 #include "pi_OverlayFactory.h"
+#include "pi_ocpndc.h"
+
 #include <vector>
 #include "bbox.h"
+
 
 
 #ifdef __WXMSW__
@@ -49,6 +52,7 @@
 using namespace std;
 
 class Dlg;
+class pi_ocpnDC;
 
 #define NUM_CURRENT_ARROW_POINTS 9
 static wxPoint CurrentArrowArray[NUM_CURRENT_ARROW_POINTS] = { wxPoint( 0, 0 ), wxPoint( 0, -10 ),
@@ -420,6 +424,189 @@ wxImage &pi_OverlayFactory::DrawGLTextString( wxString myText ){
 	
     return m_labelCacheText[myText];
 }
+
+
+void pi_OverlayFactory::DrawLine(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2,
+                         bool b_hiqual) {
+  if (m_pdc) m_pdc->DrawLine(x1, y1, x2, y2);
+#ifdef ocpnUSE_GL
+  else if (ConfigurePen()) {
+    bool b_draw_thick = false;
+
+    float pen_width = wxMax(g_piGLMinSymbolLineWidth, m_pen.GetWidth());
+
+    //      Enable anti-aliased lines, at best quality
+    if (b_hiqual) {
+      SetGLStipple();
+
+#ifndef __WXQT__
+      glEnable(GL_BLEND);
+      glEnable(GL_LINE_SMOOTH);
+#endif
+
+      if (pen_width > 1.0) {
+        GLint parms[2];
+        glGetIntegerv(GL_SMOOTH_LINE_WIDTH_RANGE, &parms[0]);
+        if (glGetError()) glGetIntegerv(GL_ALIASED_LINE_WIDTH_RANGE, &parms[0]);
+        if (pen_width > parms[1])
+          b_draw_thick = true;
+        else
+          glLineWidth(pen_width);
+      } else
+        glLineWidth(pen_width);
+    } else {
+      if (pen_width > 1) {
+        GLint parms[2];
+        glGetIntegerv(GL_ALIASED_LINE_WIDTH_RANGE, &parms[0]);
+        if (pen_width > parms[1])
+          b_draw_thick = true;
+        else
+          glLineWidth(pen_width);
+      } else
+        glLineWidth(pen_width);
+    }
+
+#ifdef USE_ANDROID_GLES2
+    if (b_draw_thick)
+      piDrawGLThickLine(x1, y1, x2, y2, m_pen, b_hiqual);
+    else {
+      glUseProgram(pi_color_tri_shader_program);
+
+      float fBuf[4];
+      GLint pos = glGetAttribLocation(pi_color_tri_shader_program, "position");
+      glVertexAttribPointer(pos, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float),
+                            fBuf);
+      glEnableVertexAttribArray(pos);
+
+      //             GLint matloc =
+      //             glGetUniformLocation(pi_color_tri_shader_program,"MVMatrix");
+      //             glUniformMatrix4fv( matloc, 1, GL_FALSE, (const
+      //             GLfloat*)cc1->GetpVP()->vp_transform);
+
+      float colorv[4];
+      colorv[0] = m_pen.GetColour().Red() / float(256);
+      colorv[1] = m_pen.GetColour().Green() / float(256);
+      colorv[2] = m_pen.GetColour().Blue() / float(256);
+      colorv[3] = 1.0;
+
+      GLint colloc = glGetUniformLocation(pi_color_tri_shader_program, "color");
+      glUniform4fv(colloc, 1, colorv);
+
+      wxDash *dashes;
+      int n_dashes = m_pen.GetDashes(&dashes);
+      if (n_dashes) {
+        float angle = atan2f((float)(y2 - y1), (float)(x2 - x1));
+        float cosa = cosf(angle);
+        float sina = sinf(angle);
+        float t1 = m_pen.GetWidth();
+
+        float lpix = sqrtf(powf(x1 - x2, 2) + powf(y1 - y2, 2));
+        float lrun = 0.;
+        float xa = x1;
+        float ya = y1;
+        float ldraw = t1 * dashes[0];
+        float lspace = t1 * dashes[1];
+
+        ldraw = wxMax(ldraw, 4.0);
+        lspace = wxMax(lspace, 4.0);
+        lpix = wxMin(lpix, 2000.0);
+
+        while (lrun < lpix) {
+          //    Dash
+          float xb = xa + ldraw * cosa;
+          float yb = ya + ldraw * sina;
+
+          if ((lrun + ldraw) >= lpix)  // last segment is partial draw
+          {
+            xb = x2;
+            yb = y2;
+          }
+
+          fBuf[0] = xa;
+          fBuf[1] = ya;
+          fBuf[2] = xb;
+          fBuf[3] = yb;
+
+          glDrawArrays(GL_LINES, 0, 2);
+
+          xa = xa + (lspace + ldraw) * cosa;
+          ya = ya + (lspace + ldraw) * sina;
+          lrun += lspace + ldraw;
+        }
+      } else  // not dashed
+      {
+        fBuf[0] = x1;
+        fBuf[1] = y1;
+        fBuf[2] = x2;
+        fBuf[3] = y2;
+
+        glDrawArrays(GL_LINES, 0, 2);
+      }
+    }
+
+#else
+    if (b_draw_thick)
+     // piDrawGLThickLine(x1, y1, x2, y2, m_pen, b_hiqual);
+    else {
+      wxDash *dashes;
+      int n_dashes = m_pen.GetDashes(&dashes);
+      if (n_dashes) {
+        float angle = atan2f((float)(y2 - y1), (float)(x2 - x1));
+        float cosa = cosf(angle);
+        float sina = sinf(angle);
+        float t1 = m_pen.GetWidth();
+
+        float lpix = sqrtf(powf(x1 - x2, 2) + powf(y1 - y2, 2));
+        float lrun = 0.;
+        float xa = x1;
+        float ya = y1;
+        float ldraw = t1 * dashes[0];
+        float lspace = t1 * dashes[1];
+
+        ldraw = wxMax(ldraw, 4.0);
+        lspace = wxMax(lspace, 4.0);
+        lpix = wxMin(lpix, 2000.0);
+
+        glBegin(GL_LINES);
+        while (lrun < lpix) {
+          //    Dash
+          float xb = xa + ldraw * cosa;
+          float yb = ya + ldraw * sina;
+
+          if ((lrun + ldraw) >= lpix)  // last segment is partial draw
+          {
+            xb = x2;
+            yb = y2;
+          }
+
+          glVertex2f(xa, ya);
+          glVertex2f(xb, yb);
+
+          xa = xa + (lspace + ldraw) * cosa;
+          ya = ya + (lspace + ldraw) * sina;
+          lrun += lspace + ldraw;
+        }
+        glEnd();
+      } else  // not dashed
+      {
+        glBegin(GL_LINES);
+        glVertex2i(x1, y1);
+        glVertex2i(x2, y2);
+        glEnd();
+      }
+    }
+#endif
+    glDisable(GL_LINE_STIPPLE);
+
+    if (b_hiqual) {
+      glDisable(GL_LINE_SMOOTH);
+      glDisable(GL_BLEND);
+    }
+  }
+#endif
+}
+
+
 
 void pi_OverlayFactory::DrawGLLine( double x1, double y1, double x2, double y2, double width, wxColour myColour )
 {

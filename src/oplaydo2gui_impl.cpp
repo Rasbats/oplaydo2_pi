@@ -29,7 +29,6 @@
 #include "oplaydo2gui.h"
 #include "oplaydo2_pi.h"
 #include "icons.h"
-#include "wx/graphics.h"
 
 #include <wx/progdlg.h>
 #include <wx/wx.h>
@@ -37,8 +36,13 @@
 #include <list>
 #include <cmath>
 
-class wxGraphicsContext;
-class oplaydo2_pi;
+#ifndef __OCPN__ANDROID__
+#include <GL/gl.h>
+#include <GL/glu.h>
+#else
+#include "qopengl.h"  // this gives us the qt runtime gles2.h
+#include "GL/gl_private.h"
+#endif
 
 
 #define FAIL(X) do { error = X; goto failed; } while(0)
@@ -98,18 +102,6 @@ void Dlg::OnClose(wxCloseEvent& event)
 {	
 	pPlugIn->Onoplaydo2DialogClose();
 }
-
-void Dlg::OnDraw(wxCommandEvent& event)
-{	
-	my_points.clear();
-	Position newPos;
-	newPos.myLat = 55.0;
-	newPos.myNextLat = 56.0;
-	newPos.myLon = -4.0;
-	newPos.myNextLon = -5.0;
-	my_points.push_back(newPos);
-}
-
 
 bool Dlg::OpenXML()
 {
@@ -498,9 +490,67 @@ void Dlg::Calculate( wxCommandEvent& event, bool write_file, int Pattern  ){
   }
 }
 
-void Dlg::SetViewPort( PlugIn_ViewPort *vp )
-{
-    if(m_vp == vp)  return;
+void Dlg::OnDraw(wxCommandEvent& event)
+{	
+	my_points.clear();
+	Position newPos;
+	newPos.myLat = 55.0;
+	newPos.myNextLat = 56.0;
+	newPos.myLon = -4.0;
+	newPos.myNextLon = -5.0;
+	my_points.push_back(newPos);
 
-    m_vp = new PlugIn_ViewPort(*vp);
+	RequestRefresh(m_parent); // refresh main window
+
+}
+
+void Dlg::Plot(pi_ocpnDC *dc, PlugIn_ViewPort *vp, wxColour color) {	
+
+	wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_ITALIC,
+		wxFONTWEIGHT_NORMAL);
+
+	dc->SetPen(wxPen(color, 3));
+	dc->SetTextForeground(color);
+	dc->SetFont(font);
+#if 0
+	if (dc) {
+		dc->SetPen(wxPen(color, 3));
+		dc->SetTextForeground(color);
+		dc->SetFont(font);
+	}
+	else {
+		glLineWidth(3.0);
+		glColor4ub(color.Red(), color.Green(), color.Blue(), color.Alpha());
+		m_TexFont.Build(font);
+	}
+#endif
+
+	for (std::vector<Position>::iterator it = my_points.begin(); it != my_points.end(); it++) {
+
+
+		DrawLineSeg(dc, *vp, (it)->myLat, (it)->myLon, (it)->myNextLat,
+			(it)->myNextLon);
+	}
+
+
+}
+
+void Dlg::DrawLineSeg(pi_ocpnDC *dc, PlugIn_ViewPort &VP, double lat1, double lon1,
+                 double lat2, double lon2) 
+{
+  wxPoint r1, r2;
+  GetCanvasPixLL(&VP, &r1, lat1, lon1);
+  GetCanvasPixLL(&VP, &r2, lat2, lon2);
+
+  dc->DrawLine(r1.x, r1.y, r2.x, r2.y);
+#if 0
+    if(dc)
+        dc->DrawLine(r1.x, r1.y, r2.x, r2.y);
+    else {
+        glBegin(GL_LINES);
+        glVertex2i(r1.x, r1.y);
+        glVertex2i(r2.x, r2.y);
+        glEnd();
+    }
+#endif
 }

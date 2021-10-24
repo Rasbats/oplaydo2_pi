@@ -29,6 +29,7 @@
 #include "bbox.h"
 #include "ocpn_plugin.h"
 
+
 using namespace std;
 
 
@@ -98,6 +99,9 @@ public:
 	void drawGLPolygons(pi_OverlayFactory *pof, wxDC *dc,
                                 PlugIn_ViewPort *vp, 
                                 wxImage &imageLabel, double myLat, double myLon, int offset );
+
+	void DrawLine(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2,
+		bool b_hiqual);
 
 	void DrawGLLine( double x1, double y1, double x2, double y2, double width, wxColour myColour );
 	PlugIn_ViewPort *vp;
