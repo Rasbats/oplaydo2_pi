@@ -66,7 +66,7 @@ include(PluginOptions)
 #
 # -------  Plugin setup --------
 #
-project(oplaydo2_pi VERSION 0.1.1.0)
+project(oplaydo2_pi VERSION 0.1.2.0)
 set(PKG_PRERELEASE "")  # Empty, or a tag like 'beta'
 
 set(DISPLAY_NAME oplaydo2)    # Dialogs, installer artifacts, ...
@@ -153,11 +153,6 @@ if (NOT ${BUILD_TYPE} STREQUAL "flatpak")
   include(PluginLocalization)
 
   include_directories(BEFORE ${CMAKE_BINARY_DIR}/include)
-
-  if (WIN32)
-    add_subdirectory("libs/WindowsHeaders")
-    target_link_libraries(${PACKAGE_NAME} windows::headers)
-  endif ()
 
   add_subdirectory("libs/jsoncpp")
   target_link_libraries(${PACKAGE_NAME} ocpn::jsoncpp)
