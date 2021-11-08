@@ -92,6 +92,7 @@ set (SRC
   src/pi_TexFont.h
   src/pi_ocpndc.cpp
   src/pi_ocpndc.h
+  src/GL/gl_private.h
 )
 
 if (QT_ANDROID)
