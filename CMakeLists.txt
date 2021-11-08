@@ -96,6 +96,7 @@ set (SRC
 )
 
 if (QT_ANDROID)
+ include_directories( ${PROJECT_SOURCE_DIR}/extinclude/GLES2)
   list(APPEND SRC src/pi_shaders.h src/pi_shaders.cpp)
 endif ()
 
