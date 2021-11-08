@@ -165,7 +165,7 @@ bool oplaydo2_pi::DeInit(void)
 
       }	
     
-    SaveConfig();
+    //SaveConfig();
 
     RequestRefresh(m_parent_window); // refresh mainn window
 
@@ -235,7 +235,7 @@ void oplaydo2_pi::OnToolbarToolCallback(int id)
 	if(NULL == m_pDialog)
       {
             m_pDialog = new Dlg(m_parent_window);
-            m_pDialog->Move(wxPoint(m_route_dialog_x, m_route_dialog_y));
+            //m_pDialog->Move(wxPoint(m_route_dialog_x, m_route_dialog_y));
       }
 
 	  m_pDialog->Fit();
@@ -300,7 +300,7 @@ void oplaydo2_pi::Onoplaydo2DialogClose()
     m_bShowoplaydo2 = false;
     SetToolbarItemState( m_leftclick_tool_id, m_bShowoplaydo2 );
     m_pDialog->Hide();
-    SaveConfig();
+    //SaveConfig();
 
     RequestRefresh(m_parent_window); // refresh main window
 
