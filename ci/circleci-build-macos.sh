@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 
 
-#
 # Build the  MacOS artifacts
+
+
+# Copyright (c) 2021 Alec Leamas
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
 
 set -xe
 
-export MACOSX_DEPLOYMENT_TARGET=10.9
+export MACOSX_DEPLOYMENT_TARGET=10.10
 
 # Return latest version of $1, optiomally using option $2
 pkg_version() { brew list --versions $2 $1 | tail -1 | awk '{print $2}'; }
@@ -35,7 +42,7 @@ cmake \
   -DwxWidgets_CONFIG_EXECUTABLE=/tmp/wx315_opencpn50_macos1010/bin/wx-config \
   -DwxWidgets_CONFIG_OPTIONS="--prefix=/tmp/wx315_opencpn50_macos1010" \
   -DCMAKE_INSTALL_PREFIX= \
-  -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 \
+  -DCMAKE_OSX_DEPLOYMENT_TARGET=10.10 \
   ..
 
 if [[ -z "$CI" ]]; then
