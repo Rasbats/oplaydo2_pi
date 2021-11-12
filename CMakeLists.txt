@@ -88,11 +88,11 @@ set (SRC
   src/oplaydo2gui_impl.h
   src/NavFunc.h
   src/NavFunc.cpp
-  src/pi_TexFont.cpp
-  src/pi_TexFont.h
-  src/pi_ocpndc.cpp
-  src/pi_ocpndc.h
-  src/GL/gl_private.h
+  src/ODConfig.cpp
+  src/ODdc.cpp
+  src/ODShaders.cpp
+  src/ODShaders.h
+
 )
 
 if (QT_ANDROID)
