@@ -40,7 +40,7 @@
 #include "ocpn_plugin.h" //Required for OCPN plugin functions
 #include "oplaydo2gui_impl.h"
 #include "oplaydo2gui.h"
-#include "pi_ocpndc.h"
+#include "ODdc.h"
 
 #include "config.h"
 
