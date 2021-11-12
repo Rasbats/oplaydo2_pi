@@ -491,7 +491,7 @@ void Dlg::OnDraw(wxCommandEvent& event)
 
 }
 
-void Dlg::Plot(pi_ocpnDC *dc, PlugIn_ViewPort *vp, wxColour color) {	
+void Dlg::Plot(piDC *dc, PlugIn_ViewPort *vp, wxColour color) {	
 
 	wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_ITALIC,
 		wxFONTWEIGHT_NORMAL);
@@ -522,7 +522,7 @@ void Dlg::Plot(pi_ocpnDC *dc, PlugIn_ViewPort *vp, wxColour color) {
 
 }
 
-void Dlg::DrawLineSeg(pi_ocpnDC *dc, PlugIn_ViewPort &VP, double lat1, double lon1,
+void Dlg::DrawLineSeg(piDC *dc, PlugIn_ViewPort &VP, double lat1, double lon1,
                  double lat2, double lon2) 
 {
   wxPoint r1, r2;

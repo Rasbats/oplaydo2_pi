@@ -306,3 +306,51 @@ void oplaydo2_pi::Onoplaydo2DialogClose()
 
 }
 
+void oplaydo2_pi::RenderOverlayBoth(piDC *dc, PlugIn_ViewPort *vp) {
+     if (NULL == m_pDialog)
+            return;
+ 
+}
+
+bool oplaydo2_pi::RenderOverlay(wxDC &dc, PlugIn_ViewPort *vp) {
+
+  if (NULL == m_pDialog)
+            return false;
+
+  if (!m_oDC) m_oDC = new piDC();
+
+  m_oDC->SetVP(vp);
+  m_oDC->SetDC(&dc);
+
+  RenderOverlayBoth(m_oDC, vp);
+
+  return true;
+}
+
+bool oplaydo2_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp) {
+  if (NULL == m_pDialog)
+            return false;
+
+  if (!m_oDC) m_oDC = new piDC();
+
+  m_oDC->SetVP(vp);
+  m_oDC->SetDC(NULL);
+
+#ifndef USE_ANDROID_GLES2
+  glPushAttrib(GL_COLOR_BUFFER_BIT | GL_LINE_BIT | GL_ENABLE_BIT |
+               GL_POLYGON_BIT | GL_HINT_BIT);
+
+  glEnable(GL_LINE_SMOOTH);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+#endif
+
+  RenderOverlayBoth(m_oDC, vp);
+
+#ifndef USE_ANDROID_GLES2
+  glPopAttrib();
+#endif
+
+  return true;
+}

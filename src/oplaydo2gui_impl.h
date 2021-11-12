@@ -46,7 +46,7 @@ using namespace std;
 
 class oplaydo2_pi;
 class Position;
-class pi_ocpnDC;
+class piDC;
 
 #ifdef __WXOSX__
 #define OPLAYDO2_DLG_STYLE                                                   \
@@ -83,8 +83,8 @@ public:
 		wxString rte_start;
 	    wxString rte_end;
 		void OnDraw(wxCommandEvent& event);
-		void Plot(pi_ocpnDC *dc, PlugIn_ViewPort *vp, wxColour color);
-		void DrawLineSeg(pi_ocpnDC *dc, PlugIn_ViewPort &VP, double lat1, double lon1,
+		void Plot(piDC *dc, PlugIn_ViewPort *vp, wxColour color);
+		void DrawLineSeg(piDC *dc, PlugIn_ViewPort &VP, double lat1, double lon1,
 			double lat2, double lon2);
 
 private:
