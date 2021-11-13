@@ -44,6 +44,8 @@
 
 using namespace std;
 
+class piOverlayFactory;
+class PlugIn_ViewPort;
 class oplaydo2_pi;
 class Position;
 class piDC;
@@ -94,6 +96,8 @@ private:
         bool dbg;
 
 		wxString     m_gpx_path;		
+		PlugIn_ViewPort  *m_vp;
+
 };
 
 

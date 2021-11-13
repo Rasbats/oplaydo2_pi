@@ -40,6 +40,7 @@
 #include "ocpn_plugin.h" //Required for OCPN plugin functions
 #include "oplaydo2gui_impl.h"
 #include "oplaydo2gui.h"
+#include "piOverlayFactory.h"
 #include "pidc.h"
 
 #include "config.h"
@@ -93,13 +94,14 @@ public:
 
 	  bool RenderOverlay(wxDC &dc, PlugIn_ViewPort *vp);
       bool RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp);
-	  void RenderOverlayBoth(piDC *dc, PlugIn_ViewPort *vp);
+	 
 
 	  piDC *m_oDC;
-	  
+	  Dlg               *m_pDialog;
+	  piOverlayFactory *m_pOverlayFactory;
 private:
       
-	  Dlg               *m_pDialog;
+	  
 	  wxFileConfig      *m_pconfig;
      
       bool              LoadConfig(void);

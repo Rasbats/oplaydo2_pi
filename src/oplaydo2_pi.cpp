@@ -150,9 +150,12 @@ int oplaydo2_pi::Init(void)
 bool oplaydo2_pi::DeInit(void)
 {
       //    Record the dialog position
+
       if (NULL != m_pDialog)
       {
-            //Capture dialog position
+		  delete m_pOverlayFactory;
+		  m_pOverlayFactory = NULL;
+		  //Capture dialog position
             wxPoint p = m_pDialog->GetPosition();
             SetCalculatorDialogX(p.x);
             SetCalculatorDialogY(p.y);
@@ -234,8 +237,12 @@ void oplaydo2_pi::OnToolbarToolCallback(int id)
     
 	if(NULL == m_pDialog)
       {
-            m_pDialog = new Dlg(m_parent_window);
+        m_pDialog = new Dlg(m_parent_window);
             //m_pDialog->Move(wxPoint(m_route_dialog_x, m_route_dialog_y));
+			// Create the drawing factory
+        m_pOverlayFactory = new piOverlayFactory( *m_pDialog );
+        m_pOverlayFactory->SetParentSize( m_display_width, m_display_height);		
+
       }
 
 	  m_pDialog->Fit();
@@ -297,60 +304,41 @@ bool oplaydo2_pi::SaveConfig(void)
 
 void oplaydo2_pi::Onoplaydo2DialogClose()
 {
-    m_bShowoplaydo2 = false;
-    SetToolbarItemState( m_leftclick_tool_id, m_bShowoplaydo2 );
-    m_pDialog->Hide();
+	
+	//m_bShowoplaydo2 = false;
+    //SetToolbarItemState( m_leftclick_tool_id, m_bShowoplaydo2);
+	
     //SaveConfig();
 
-    RequestRefresh(m_parent_window); // refresh main window
+   // RequestRefresh(m_parent_window); // refresh main window
+	
+   // RequestRefresh(m_parent_window); // refresh main window
 
 }
 
-void oplaydo2_pi::RenderOverlayBoth(piDC *dc, PlugIn_ViewPort *vp) {
-     if (NULL == m_pDialog)
-            return;
- 
-}
 
 bool oplaydo2_pi::RenderOverlay(wxDC &dc, PlugIn_ViewPort *vp) {
 
-  if (NULL == m_pDialog)
+  if (!m_pDialog ||
+       !m_pOverlayFactory)
             return false;
 
-  if (!m_oDC) m_oDC = new piDC();
-
-  m_oDC->SetVP(vp);
-  m_oDC->SetDC(&dc);
-
-  RenderOverlayBoth(m_oDC, vp);
+  piDC pidc(dc);
+  m_pOverlayFactory->RenderOverlay ( pidc, *vp );
 
   return true;
 }
 
 bool oplaydo2_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp) {
-  if (NULL == m_pDialog)
+  if (!m_pDialog ||
+       !m_pOverlayFactory)
             return false;
-
-  if (!m_oDC) m_oDC = new piDC();
-
-  m_oDC->SetVP(vp);
-  m_oDC->SetDC(NULL);
-
-#ifndef USE_ANDROID_GLES2
-  glPushAttrib(GL_COLOR_BUFFER_BIT | GL_LINE_BIT | GL_ENABLE_BIT |
-               GL_POLYGON_BIT | GL_HINT_BIT);
-
-  glEnable(GL_LINE_SMOOTH);
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-#endif
-
-  RenderOverlayBoth(m_oDC, vp);
-
-#ifndef USE_ANDROID_GLES2
-  glPopAttrib();
-#endif
+ 
+    piDC pidc;
+    glEnable( GL_BLEND );
+    pidc.SetVP(vp);
+    
+    m_pOverlayFactory->RenderOverlay ( pidc, *vp );
 
   return true;
 }

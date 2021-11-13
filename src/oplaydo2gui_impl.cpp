@@ -87,7 +87,10 @@ void Dlg::OnPSGPX( wxCommandEvent& event )
 
 void Dlg::OnClose(wxCloseEvent& event)
 {	
+	
+	this->Show(false);
 	pPlugIn->Onoplaydo2DialogClose();
+    //RequestRefresh(pParent); // refresh main window
 }
 
 bool Dlg::OpenXML()
@@ -541,3 +544,4 @@ void Dlg::DrawLineSeg(piDC *dc, PlugIn_ViewPort &VP, double lat1, double lon1,
     }
 #endif
 }
+
