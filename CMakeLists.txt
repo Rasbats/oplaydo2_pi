@@ -92,11 +92,6 @@ set (SRC
   src/piOverlayFactory.h
 )
 
-if (QT_ANDROID)
- include_directories( ${PROJECT_SOURCE_DIR}/extinclude/GLES2)
-  list(APPEND SRC libs/plugingl/pi_shaders.h libs/plugingl/pi_shaders.cpp)
-endif ()
-
 # -------- Setup completed, build the plugin --------
 #
 add_library(${CMAKE_PROJECT_NAME} SHARED ${SRC})
