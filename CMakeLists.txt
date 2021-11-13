@@ -88,11 +88,13 @@ set (SRC
   src/oplaydo2gui_impl.h
   src/NavFunc.h
   src/NavFunc.cpp
+  src/piOverlayFactory.cpp
+  src/piOverlayFactory.h
 )
 
 if (QT_ANDROID)
  include_directories( ${PROJECT_SOURCE_DIR}/extinclude/GLES2)
-  list(APPEND SRC src/pi_shaders.h src/pi_shaders.cpp)
+  list(APPEND SRC libs/plugingl/pi_shaders.h libs/plugingl/pi_shaders.cpp)
 endif ()
 
 # -------- Setup completed, build the plugin --------
