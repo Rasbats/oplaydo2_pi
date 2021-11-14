@@ -127,7 +127,7 @@ piOverlayFactory::~piOverlayFactory()
 }
 
 
-bool piOverlayFactory::RenderOverlay(piDC &dc, PlugIn_ViewPort &vp)
+bool piOverlayFactory::RenderOverlay(ODDC &dc, PlugIn_ViewPort &vp)
 {
 	m_dc = &dc;	
 
@@ -195,3 +195,42 @@ void piOverlayFactory::DrawCircle( double x, double y, double r,
     m_dc->DrawCircle(x, y, r);
 }
 
+void piOverlayFactory::Plot(ODDC *dc, PlugIn_ViewPort *vp, wxColour color) {	
+
+	wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_ITALIC,
+		wxFONTWEIGHT_NORMAL);
+
+	dc->SetPen(wxPen(color, 3));
+	dc->SetTextForeground(color);
+	dc->SetFont(font);
+#if 0
+	if (dc) {
+		dc->SetPen(wxPen(color, 3));
+		dc->SetTextForeground(color);
+		dc->SetFont(font);
+	}
+	else {
+		glLineWidth(3.0);
+		glColor4ub(color.Red(), color.Green(), color.Blue(), color.Alpha());
+		m_TexFont.Build(font);
+	}
+#endif
+
+	wxColour myColour = wxColour("RED");
+	std::vector<Position> mypoints =  m_dlg.my_points;
+
+	for (std::vector<Position>::iterator it = mypoints.begin(); it != mypoints.end(); it++) {
+
+
+	wxPoint p, pn;
+        GetCanvasPixLL( vp, &p, (it)->myLat, (it)->myLon);
+		GetCanvasPixLL( vp, &pn, (it)->myNextLat, (it)->myNextLon);
+
+        DrawLine(p.x, p.y, pn.x, pn.y, myColour, 4);		
+	}
+	
+	
+	
+	DrawLine(40, 40, 120, 120, myColour, 4);
+
+}

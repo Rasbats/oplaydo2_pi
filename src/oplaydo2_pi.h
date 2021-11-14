@@ -41,10 +41,12 @@
 #include "oplaydo2gui_impl.h"
 #include "oplaydo2gui.h"
 #include "piOverlayFactory.h"
-#include "pidc.h"
+#include "ODdc.h"
 
 #include "config.h"
 #include <wx/dc.h>
+
+
 
 //----------------------------------------------------------------------------------------------------------
 //    The PlugIn Class Definition
@@ -97,7 +99,7 @@ public:
       bool RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp);
 	 
 
-	  piDC *m_oDC;
+	  ODDC *m_oDC;
 	  Dlg               *m_pDialog;
 	  piOverlayFactory *m_pOverlayFactory;
 private:

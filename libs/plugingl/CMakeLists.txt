@@ -18,11 +18,10 @@ set(SRC
   include/pi_shaders.h
   include/qtstylesheet.h
   include/TexFont.h
+
 )   
 
-if (NOT QT_ANDROID)
-  list(APPEND SRC include/pidc.h src/pidc.cpp)
-endif ()
+
 
 # Library is used also in the plugins, so:
 set(CMAKE_POSITION_INDEPENDENT_CODE "ON")

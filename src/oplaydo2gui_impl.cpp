@@ -494,38 +494,8 @@ void Dlg::OnDraw(wxCommandEvent& event)
 
 }
 
-void Dlg::Plot(piDC *dc, PlugIn_ViewPort *vp, wxColour color) {	
 
-	wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_ITALIC,
-		wxFONTWEIGHT_NORMAL);
-
-	dc->SetPen(wxPen(color, 3));
-	dc->SetTextForeground(color);
-	dc->SetFont(font);
-#if 0
-	if (dc) {
-		dc->SetPen(wxPen(color, 3));
-		dc->SetTextForeground(color);
-		dc->SetFont(font);
-	}
-	else {
-		glLineWidth(3.0);
-		glColor4ub(color.Red(), color.Green(), color.Blue(), color.Alpha());
-		m_TexFont.Build(font);
-	}
-#endif
-
-	for (std::vector<Position>::iterator it = my_points.begin(); it != my_points.end(); it++) {
-
-
-		DrawLineSeg(dc, *vp, (it)->myLat, (it)->myLon, (it)->myNextLat,
-			(it)->myNextLon);
-	}
-
-
-}
-
-void Dlg::DrawLineSeg(piDC *dc, PlugIn_ViewPort &VP, double lat1, double lon1,
+void Dlg::DrawLineSeg(ODDC *dc, PlugIn_ViewPort &VP, double lat1, double lon1,
                  double lat2, double lon2) 
 {
   wxPoint r1, r2;
