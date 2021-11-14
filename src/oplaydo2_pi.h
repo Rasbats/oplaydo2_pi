@@ -44,6 +44,7 @@
 #include "pidc.h"
 
 #include "config.h"
+#include <wx/dc.h>
 
 //----------------------------------------------------------------------------------------------------------
 //    The PlugIn Class Definition
