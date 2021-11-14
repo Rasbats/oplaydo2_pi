@@ -13,16 +13,16 @@
 # -------- Options ----------
 
 set(OCPN_TEST_REPO
-    "opencpn/oplaydo2-alpha"
+    "mike-rossiter/oplaydo2-alpha"
     CACHE STRING "Default repository for untagged builds"
 )
 set(OCPN_BETA_REPO
-    "opencpn/oplaydo2-beta"
+    "mike-rossiter/oplaydo2-beta"
     CACHE STRING
     "Default repository for tagged builds matching 'beta'"
 )
 set(OCPN_RELEASE_REPO
-    "opencpn/oplaydo2-prod"
+    "mike-rossiter/oplaydo2-prod"
     CACHE STRING
     "Default repository for tagged builds not matching 'beta'"
 )
@@ -46,7 +46,7 @@ Simple plugin to test Android builds
 set(PKG_AUTHOR "Mike Rossiter")
 set(PKG_IS_OPEN_SOURCE "yes")
 set(PKG_HOMEPAGE https://github.com/Rasbats/oplaydo2_pi)
-set(PKG_INFO_URL https://opencpn.org/OpenCPN/plugins/oplaydo2.html)
+set(PKG_INFO_URL https://mike-rossiter.org/OpenCPN/plugins/oplaydo2.html)
 
 set(SRC
   src/oplaydo2_pi.h
