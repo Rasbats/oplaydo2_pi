@@ -36,7 +36,7 @@
 
 #include "TexFont.h"
 #include "ocpn_plugin.h"
-
+#include <wx/dc.h>
 
 #ifdef ocpnUSE_GL
 #include <wx/glcanvas.h>
