@@ -100,8 +100,11 @@ int oplaydo2_pi::Init(void)
       AddLocaleCatalog( _T("opencpn-oplaydo2_pi") );
 
       // Set some default private member parameters
-      m_route_dialog_x = 0;
-      m_route_dialog_y = 0;
+      m_route_dialog_x = 100;
+      m_route_dialog_y = 100;
+	  m_display_width = 600;
+	  m_display_height = 200;
+
       ::wxDisplaySize(&m_display_width, &m_display_height);
 
       //    Get a pointer to the opencpn display canvas, to use as a parent for the POI Manager dialog

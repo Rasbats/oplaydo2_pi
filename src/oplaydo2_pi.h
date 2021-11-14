@@ -87,8 +87,8 @@ public:
 //    Other public methods
       void SetCalculatorDialogX         (int x){ m_route_dialog_x = x;};
       void SetCalculatorDialogY         (int x){ m_route_dialog_y = x;};
-      void SetCalculatorDialogWidth     (int x){ m_route_dialog_width = x;};
-      void SetCalculatorDialogHeight    (int x){ m_route_dialog_height = x;};      
+      void SetCalculatorDialogWidth     (int x){ m_display_width = x;};
+      void SetCalculatorDialogHeight    (int x){ m_display_height = x;};      
 	  void Onoplaydo2DialogClose();
 
 	  wxWindow         *m_parent_window;
