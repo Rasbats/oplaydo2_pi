@@ -328,6 +328,7 @@ bool oplaydo2_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp) {
             return false;
  
     piDC pidc;
+    glEnable( GL_BLEND );
     pidc.SetVP(vp);
     
     m_pOverlayFactory->RenderOverlay ( pidc, *vp );
