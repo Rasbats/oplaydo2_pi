@@ -35,13 +35,6 @@
 #include "oplaydo2gui_impl.h"
 #include "oplaydo2gui.h"
 
-#ifndef __OCPN__ANDROID__
-
-#else
-#include "qopengl.h"  // this gives us the qt runtime gles2.h
-#include "GL/gl_private.h"
-#endif
-
 
 float g_piGLMinSymbolLineWidth;
 
