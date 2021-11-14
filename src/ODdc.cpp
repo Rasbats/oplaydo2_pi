@@ -65,9 +65,9 @@
 //#include "ODUtils.h"
 //#include "wx28compat.h"
 
-float g_GLMinSymbolLineWidth;
-float GL_SMOOTH_LINE_WIDTH_RANGE;
-float GL_ALIASED_LINE_WIDTH_RANGE;
+GLfloat g_GLMinSymbolLineWidth;
+GLfloat GL_SMOOTH_LINE_WIDTH_RANGE;
+GLfloat GL_ALIASED_LINE_WIDTH_RANGE;
 
 #define __CALL_CONVENTION
 
