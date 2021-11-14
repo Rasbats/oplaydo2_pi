@@ -33,6 +33,8 @@
 
 #include "TexFont.h"
 #include <vector>
+#include "ocpn_plugin.h"
+#include "../src/oplaydo2_pi.h"
 
 #ifdef ocpnUSE_GL
 #include <wx/glcanvas.h>
@@ -128,9 +130,8 @@ public:
 
     void SetTextureParms( GLint textureId, int width, int height );
 	// Needed for ocpndc.cpp to compile. Normally would be in glChartCanvas.cpp
-float g_GLMinSymbolLineWidth;
-float GL_SMOOTH_LINE_WIDTH_RANGE;
-float GL_ALIASED_LINE_WIDTH_RANGE;
+
+
 
 #ifdef ocpnUSE_GL     
     GLfloat     *s_odc_tess_work_buf;
