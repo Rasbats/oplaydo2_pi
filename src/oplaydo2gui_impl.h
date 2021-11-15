@@ -48,7 +48,7 @@ class piOverlayFactory;
 class PlugIn_ViewPort;
 class oplaydo2_pi;
 class Position;
-class ODDC;
+
 
 #ifdef __WXOSX__
 #define OPLAYDO2_DLG_STYLE                                                   \
@@ -85,8 +85,6 @@ public:
 		wxString rte_start;
 	    wxString rte_end;
 		void OnDraw(wxCommandEvent& event);
-		void DrawLineSeg(ODDC *dc, PlugIn_ViewPort &VP, double lat1, double lon1,
-			double lat2, double lon2);
 
 private:
 	    void OnClose( wxCloseEvent& event );

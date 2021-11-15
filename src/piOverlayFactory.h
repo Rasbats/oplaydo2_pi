@@ -27,9 +27,10 @@
 #include <list>
 #include <map>
 
-#include "ODdc.h"
+//#include "ODdc.h"
 
 class PlugIn_ViewPort;
+class ODDC;
 
 //----------------------------------------------------------------------------------------------------------
 //    Climatology Overlay Specification

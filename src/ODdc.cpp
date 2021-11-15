@@ -47,7 +47,7 @@
        // #include <GL/glu.h>
     #else
         #include "qopengl.h"                  // this gives us the qt runtime gles2.h
-        #include "gl_private.h"
+       // #include "gl_private.h"
     #endif
 
 #endif
@@ -61,13 +61,16 @@
 
 #include <vector>
 
+
+#include "oplaydo2_pi.h"
 #include "ODdc.h"
 //#include "ODUtils.h"
 //#include "wx28compat.h"
+// Needed for ocpndc.cpp to compile. Normally would be in glChartCanvas.cpp
+float g_GLMinSymbolLineWidth;
 
-GLfloat g_GLMinSymbolLineWidth;
-GLfloat GL_SMOOTH_LINE_WIDTH_RANGE;
-GLfloat GL_ALIASED_LINE_WIDTH_RANGE;
+#define GL_ALIASED_LINE_WIDTH_RANGE     0x846E
+#define GL_SMOOTH_LINE_WIDTH_RANGE      0x0B22
 
 #define __CALL_CONVENTION
 

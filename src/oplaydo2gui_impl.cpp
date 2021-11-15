@@ -495,23 +495,5 @@ void Dlg::OnDraw(wxCommandEvent& event)
 }
 
 
-void Dlg::DrawLineSeg(ODDC *dc, PlugIn_ViewPort &VP, double lat1, double lon1,
-                 double lat2, double lon2) 
-{
-  wxPoint r1, r2;
-  GetCanvasPixLL(&VP, &r1, lat1, lon1);
-  GetCanvasPixLL(&VP, &r2, lat2, lon2);
 
-  dc->DrawLine(r1.x, r1.y, r2.x, r2.y);
-#if 0
-    if(dc)
-        dc->DrawLine(r1.x, r1.y, r2.x, r2.y);
-    else {
-        glBegin(GL_LINES);
-        glVertex2i(r1.x, r1.y);
-        glVertex2i(r2.x, r2.y);
-        glEnd();
-    }
-#endif
-}
 

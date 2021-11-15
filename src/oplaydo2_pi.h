@@ -42,11 +42,14 @@
 #include "oplaydo2gui.h"
 #include "piOverlayFactory.h"
 #include "ODdc.h"
+//#include "globals.h"
+
 
 #include "config.h"
 #include <wx/dc.h>
 
-
+// Needed for ocpndc.cpp to compile. Normally would be in glChartCanvas.cpp
+//float g_GLMinSymbolLineWidth;
 
 
 //----------------------------------------------------------------------------------------------------------
