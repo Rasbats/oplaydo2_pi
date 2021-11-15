@@ -146,7 +146,6 @@ protected:
                         int format, const unsigned char *data);
 
     void DrawGLThickLine( float x1, float y1, float x2, float y2, wxPen pen, bool b_hiqual );
-    void DrawGLThickLines(int n, wxPoint points[], wxCoord xoffset, wxCoord yoffset, wxPen pen, bool b_hiqual);
     void DrawEndCap(float x1, float y1, float t1, float angle);
 
     wxGLCanvas *glcanvas;

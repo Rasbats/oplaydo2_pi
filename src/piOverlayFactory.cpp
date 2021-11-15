@@ -169,12 +169,6 @@ bool piOverlayFactory::RenderOverlay(ODDC &dc, PlugIn_ViewPort &vp)
 	DrawLine(40, 40, 120, 120, myColour, 4);
 
 	
-
-
-#ifndef USE_GLSL
-    if(!dc.GetDC())
-        glPopAttrib();
-#endif
     return true;
 }
 
