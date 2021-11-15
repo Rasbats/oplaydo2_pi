@@ -49,7 +49,8 @@
         #include "qopengl.h"                  // this gives us the qt runtime gles2.h
         #include "gl_private.h"
         #include "pi_shaders.h"
-        #include "../libs/AndroidHeaders/gl.h"
+        #include "../libs/AndroidHeaders/GL/gl.h"
+		#include "../libs/AndroidHeaders/GL/glext.h"
     #endif
 
 #endif
