@@ -63,6 +63,7 @@ set(SRC
   src/piOverlayFactory.h
   src/ODdc.h
   src/ODdc.cpp
+  src/gl_private.h
 )
 
 set(PKG_API_LIB api-16)  #  A directory in libs/ e. g., api-17 or api-16
