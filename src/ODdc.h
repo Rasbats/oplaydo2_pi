@@ -101,6 +101,9 @@ public:
     void DrawEllipse(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
     void StrokePolygon(int n, wxPoint points[], wxCoord xoffset = 0, wxCoord yoffset = 0, float scale = 1.0);
 
+    void DrawPolygonPattern( int n, wxPoint points[], int textureID, wxSize textureSize, wxCoord xoffset=0, wxCoord yoffset=0, float scale=1.0, float angle=0.0 );
+    void DrawPolygonsPattern( int n, int npoint[], wxPoint points[], int textureID, wxSize textureSize, wxCoord xoffset=0, wxCoord yoffset=0, float scale=1.0, float angle=0.0 );
+
     // TODO move to Protected
     void DrawPolygonTessellated(int n, wxPoint points[], wxCoord xoffset = 0, wxCoord yoffset = 0);
 
@@ -114,6 +117,7 @@ public:
 
     wxDC *GetDC() const { return dc; }
 
+    void SetTextureParms( GLint textureId, int width, int height );
 	// Needed for ocpndc.cpp to compile. Normally would be in glChartCanvas.cpp
 
 
@@ -138,14 +142,17 @@ public:
 
 
 protected:
+    void DrawPolygonTessellatedPattern( int n, wxPoint points[], int textureID, wxSize textureSize, wxCoord xoffset=0, wxCoord yoffset=0 );
 
     bool ConfigurePen();
     bool ConfigureBrush();
 
     void GLDrawBlendData(wxCoord x, wxCoord y, wxCoord w, wxCoord h,
                         int format, const unsigned char *data);
+    void drawrrhelperGLES2( wxCoord x0, wxCoord y0, wxCoord r, int quadrant, int steps );
 
     void DrawGLThickLine( float x1, float y1, float x2, float y2, wxPen pen, bool b_hiqual );
+    void DrawGLThickLines(int n, wxPoint points[], wxCoord xoffset, wxCoord yoffset, wxPen pen, bool b_hiqual);
     void DrawEndCap(float x1, float y1, float t1, float angle);
 
     wxGLCanvas *glcanvas;

@@ -31,6 +31,7 @@
 
 class PlugIn_ViewPort;
 class ODDC;
+class wxDC;
 
 //----------------------------------------------------------------------------------------------------------
 //    Climatology Overlay Specification
