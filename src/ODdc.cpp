@@ -48,6 +48,7 @@
     #else
         #include "qopengl.h"                  // this gives us the qt runtime gles2.h
         #include "gl_private.h"
+        #include "pi_shaders.h"
     #endif
 
 #endif
