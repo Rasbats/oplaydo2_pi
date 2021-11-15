@@ -241,35 +241,6 @@ void ODDC::SetVP(PlugIn_ViewPort *vp)
     m_vpSize = wxSize(vp->pix_width, vp->pix_height);
 }
 
-void ODDC::SetGLStipple() const
-{
-#ifdef ocpnUSE_GL
-    
-    switch( m_pen.GetStyle() ) {
-        case wxPENSTYLE_DOT: {
-            glLineStipple( 1, 0xF8F8 );
-            glEnable( GL_LINE_STIPPLE );
-            break;
-        }
-        case wxPENSTYLE_LONG_DASH: {
-            glLineStipple( 2, 0x3FFF );
-            glEnable( GL_LINE_STIPPLE );
-            break;
-        }
-        case wxPENSTYLE_SHORT_DASH: {
-            glLineStipple( 1, 0x0FFF );
-            glEnable( GL_LINE_STIPPLE );
-            break;
-        }
-        case wxPENSTYLE_DOT_DASH: {
-            glLineStipple( 2, 0xDEDE );
-            glEnable( GL_LINE_STIPPLE );
-            break;
-        }
-        default: break;
-    }
-#endif    
-}
 
 #ifdef ocpnUSE_GL
 /* draw a half circle using triangles */
@@ -384,7 +355,6 @@ void ODDC::DrawLine( wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2, bool b_hiqu
 
         //      Enable anti-aliased lines, at best quality
         if( b_hiqual ) {
-            SetGLStipple();
 
 #ifndef __WXQT__
             glEnable( GL_BLEND );
@@ -577,7 +547,6 @@ void ODDC::DrawLines( int n, wxPoint points[], wxCoord xoffset, wxCoord yoffset,
         bool b_draw_thick = false;
 
         glDisable( GL_LINE_STIPPLE );
-        SetGLStipple();
         
         //      Enable anti-aliased lines, at best quality
         if( b_hiqual ) {
@@ -632,7 +601,6 @@ void ODDC::DrawArc( wxCoord xc, wxCoord yc, wxCoord x1, wxCoord y1, wxCoord x2, 
         
         //      Enable anti-aliased lines, at best quality
         if( b_hiqual ) {
-            SetGLStipple();
             
             #ifndef __WXQT__
             glEnable( GL_BLEND );
