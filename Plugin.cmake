@@ -61,8 +61,6 @@ set(SRC
   src/NavFunc.cpp
   src/piOverlayFactory.cpp
   src/piOverlayFactory.h
-  src/ODdc.h
-  src/ODdc.cpp
   src/gl_private.h
 )
 

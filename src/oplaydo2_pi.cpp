@@ -35,8 +35,6 @@
 #include "oplaydo2gui_impl.h"
 #include "oplaydo2gui.h"
 
-#include "ODdc.h"
-
 
 // the class factories, used to create and destroy instances of the PlugIn
 
@@ -319,7 +317,7 @@ bool oplaydo2_pi::RenderOverlay(wxDC &dc, PlugIn_ViewPort *vp) {
        !m_pOverlayFactory)
             return false;
 
-  ODDC pidc(dc);
+  piDC pidc(dc);
   m_pOverlayFactory->RenderOverlay ( pidc, *vp );
 
   return true;
@@ -331,7 +329,7 @@ bool oplaydo2_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp) {
             return false;
  
   
-    ODDC piDC;
+    piDC piDC;
     glEnable( GL_BLEND );
     piDC.SetVP(vp);
     

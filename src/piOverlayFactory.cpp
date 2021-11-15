@@ -49,6 +49,8 @@
 
 #define FAILED_FILELIST_MSG_LEN 150
 
+class piDC;
+
 //static int s_multitexturing = 0;
 //static PFNGLACTIVETEXTUREARBPROC s_glActiveTextureARB = 0;
 //static PFNGLMULTITEXCOORD2DARBPROC s_glMultiTexCoord2dARB = 0;
@@ -127,7 +129,7 @@ piOverlayFactory::~piOverlayFactory()
 }
 
 
-bool piOverlayFactory::RenderOverlay(ODDC &dc, PlugIn_ViewPort &vp)
+bool piOverlayFactory::RenderOverlay(piDC &dc, PlugIn_ViewPort &vp)
 {
 	m_dc = &dc;	
 
@@ -176,20 +178,15 @@ bool piOverlayFactory::RenderOverlay(ODDC &dc, PlugIn_ViewPort &vp)
 void piOverlayFactory::DrawLine( double x1, double y1, double x2, double y2,
                                           const wxColour &color, double width )
 {
-    m_dc->SetPen( wxPen(color, width ) );
+	m_dc->ConfigurePen();
+	m_dc->SetPen( wxPen(color, width ) );
+	m_dc->ConfigureBrush();
     m_dc->SetBrush( *wxTRANSPARENT_BRUSH);
-    m_dc->DrawLine(x1, y1, x2, y2);
+    m_dc->DrawLine(x1, y1, x2, y2, false);
 }
 
-void piOverlayFactory::DrawCircle( double x, double y, double r,
-                                            const wxColour &color, double width )
-{
-    m_dc->SetPen( wxPen(color, width ) );
-    m_dc->SetBrush( *wxTRANSPARENT_BRUSH);
-    m_dc->DrawCircle(x, y, r);
-}
 
-void piOverlayFactory::Plot(ODDC *dc, PlugIn_ViewPort *vp, wxColour color) {	
+void piOverlayFactory::Plot(piDC *dc, PlugIn_ViewPort *vp, wxColour color) {	
 
 	wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_ITALIC,
 		wxFONTWEIGHT_NORMAL);

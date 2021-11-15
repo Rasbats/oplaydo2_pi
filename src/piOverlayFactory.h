@@ -27,10 +27,9 @@
 #include <list>
 #include <map>
 
-//#include "ODdc.h"
 
 class PlugIn_ViewPort;
-class ODDC;
+class piDC;
 class wxDC;
 
 //----------------------------------------------------------------------------------------------------------
@@ -72,13 +71,14 @@ public:
 	
 	
 	void SetParentSize( int w, int h ) { m_ParentSize.SetWidth(w) ; m_ParentSize.SetHeight(h) ;}
-	bool RenderOverlay(ODDC &dc, PlugIn_ViewPort &vp);
+	bool RenderOverlay(piDC &dc, PlugIn_ViewPort &vp);
 
+	piDC *m_dc;
  
 private:
 	wxSize  m_ParentSize;
 
-	void Plot(ODDC *dc, PlugIn_ViewPort *vp, wxColour color);
+	void Plot(piDC *dc, PlugIn_ViewPort *vp, wxColour color);
 
 
     void DrawLine( double x1, double y1, double x2, double y2,
@@ -91,7 +91,7 @@ private:
 
     Dlg &m_dlg;
 
-    ODDC *m_dc;
+    
 
     wxString m_sFailedMessage;
 };
