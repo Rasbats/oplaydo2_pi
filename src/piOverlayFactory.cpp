@@ -183,6 +183,8 @@ void piOverlayFactory::DrawLine( double x1, double y1, double x2, double y2,
 	m_dc->ConfigureBrush();
     m_dc->SetBrush( *wxTRANSPARENT_BRUSH);
     m_dc->DrawLine(x1, y1, x2, y2, false);
+
+    m_dc->DrawText("testing", 80, 80);
 }
 
 
