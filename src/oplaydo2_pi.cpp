@@ -319,7 +319,7 @@ bool oplaydo2_pi::RenderOverlay(wxDC &dc, PlugIn_ViewPort *vp) {
        !m_pOverlayFactory)
             return false;
 
-  pi_ocpnDC pidc = dc;
+  pi_ocpnDC pidc(dc);
   
   m_pOverlayFactory->RenderOverlay ( pidc, *vp );
 
