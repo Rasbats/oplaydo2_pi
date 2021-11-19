@@ -76,6 +76,7 @@ public:
 	bool RenderOverlay(pi_ocpnDC &dc, PlugIn_ViewPort &vp);
 
 	pi_ocpnDC *m_dc;
+	wxFont font;
  
 private:
 	wxSize  m_ParentSize;

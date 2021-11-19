@@ -118,7 +118,13 @@ piOverlay::~piOverlay()
 piOverlayFactory::piOverlayFactory( Dlg &dlg )
     : m_dlg(dlg)
 {
-    // make sure the user data directory exists
+	
+#ifdef __WXQT__
+  font = GetOCPNGUIScaledFont_PlugIn(_T("Dialog"));
+#else
+  font = wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
+                          wxFONTWEIGHT_NORMAL);
+#endif
    
 
 }
@@ -187,7 +193,7 @@ void piOverlayFactory::DrawLine( double x1, double y1, double x2, double y2,
     m_dc->ConfigurePen();
 	m_dc->SetPen( wxPen(color, width ) );
 
-	wxFont font( 16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL );
+
     m_dc->SetFont( font );
 	const wxString ttt = "testing";
     m_dc->DrawText(ttt, 150, 150);
