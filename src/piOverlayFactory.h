@@ -86,6 +86,10 @@ private:
 
     void DrawLine( double x1, double y1, double x2, double y2,
                    const wxColour &color, double width );
+
+	void DrawNumbers(wxPoint p, double value, int settings,
+		wxColour back_color);
+
     void DrawCircle( double x, double y, double r, const wxColour &color, double width );
 
     bool CreateGLTexture(piOverlay &O, int setting, int month, PlugIn_ViewPort &vp);
