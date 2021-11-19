@@ -189,7 +189,8 @@ void piOverlayFactory::DrawLine( double x1, double y1, double x2, double y2,
 
 	wxFont font( 16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL );
     m_dc->SetFont( font );
-    m_dc->DrawText("testing", 150, 150);
+	const wxString ttt = "testing";
+    m_dc->DrawText(ttt, 150, 150);
 }
 
 
