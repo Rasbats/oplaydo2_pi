@@ -254,7 +254,7 @@ void piOverlayFactory::DrawNumbers(wxPoint p, double value, int settings,
                 wxFONTWEIGHT_NORMAL);
 #endif
 
-    wxString label = getLabelString(value, settings);
+    wxString label = "testing";
 
     m_oDC->SetFont(font);
     int w, h;
