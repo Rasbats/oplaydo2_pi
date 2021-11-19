@@ -102,9 +102,7 @@ public:
 
 	  bool RenderOverlay(wxDC &dc, PlugIn_ViewPort *vp);
       bool RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp);
-	 
-
-	  pi_ocpnDC *m_oDC;
+	 	  
 	  Dlg               *m_pDialog;
 	  piOverlayFactory *m_pOverlayFactory;
 private:
