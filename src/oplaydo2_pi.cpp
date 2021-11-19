@@ -77,6 +77,8 @@ oplaydo2_pi::oplaydo2_pi(void *ppimgr)
 	  fn.SetFullName("oplaydo2_pi_panel_icon.png");
 
 	  wxString shareLocn = fn.GetFullPath();
+
+	  wxInitAllImageHandlers();
 	  wxImage panelIcon(shareLocn);
 	  
 	  if (panelIcon.IsOk())

@@ -18,8 +18,6 @@ set(SRC
   include/pi_shaders.h
   include/qtstylesheet.h
   include/TexFont.h
-  src/pidc.cpp
-  include/pidc.h
 )   
 
 
