@@ -256,25 +256,25 @@ void piOverlayFactory::DrawNumbers(wxPoint p, double value, int settings,
 
     wxString label = "testing";
 
-    m_oDC->SetFont(font);
+    m_dc->SetFont(font);
     int w, h;
-    m_oDC->GetTextExtent(label, &w, &h);
+    m_dc->GetTextExtent(label, &w, &h);
 
     int label_offsetx = 5, label_offsety = 1;
     int x = p.x - label_offsetx, y = p.y - label_offsety;
     w += 2 * label_offsetx, h += 2 * label_offsety;
 
-    m_oDC->SetBrush(wxBrush(back_color));
-    m_oDC->DrawRoundedRectangle(x, y, w, h, 0);
+    m_dc->SetBrush(wxBrush(back_color));
+    m_dc->DrawRoundedRectangle(x, y, w, h, 0);
 
     /* draw bounding rectangle */
-    m_oDC->SetPen(wxPen(wxColour(0, 0, 0), 1));
-    m_oDC->DrawLine(x, y, x + w, y);
-    m_oDC->DrawLine(x + w, y, x + w, y + h);
-    m_oDC->DrawLine(x + w, y + h, x, y + h);
-    m_oDC->DrawLine(x, y + h, x, y);
+    m_dc->SetPen(wxPen(wxColour(0, 0, 0), 1));
+    m_dc->DrawLine(x, y, x + w, y);
+    m_dc->DrawLine(x + w, y, x + w, y + h);
+    m_dc->DrawLine(x + w, y + h, x, y + h);
+    m_dc->DrawLine(x, y + h, x, y);
 
-    m_oDC->DrawText(label, p.x, p.y);
+    m_dc->DrawText(label, p.x, p.y);
 
 #endif
 #endif
