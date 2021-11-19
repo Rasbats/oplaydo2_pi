@@ -26,10 +26,11 @@
 
 #include <list>
 #include <map>
+#include "pi_ocpndc.h"
 
 
 class PlugIn_ViewPort;
-class piDC;
+class pi_ocpnDC;
 class wxDC;
 
 //----------------------------------------------------------------------------------------------------------
@@ -64,6 +65,7 @@ class Dlg;
 class wxGLContext;
 class piOverlayFactory;
 
+
 class piOverlayFactory {
 public:
     piOverlayFactory( Dlg &dlg );
@@ -71,14 +73,14 @@ public:
 	
 	
 	void SetParentSize( int w, int h ) { m_ParentSize.SetWidth(w) ; m_ParentSize.SetHeight(h) ;}
-	bool RenderOverlay(piDC &dc, PlugIn_ViewPort &vp);
+	bool RenderOverlay(pi_ocpnDC &dc, PlugIn_ViewPort &vp);
 
-	piDC *m_dc;
+	pi_ocpnDC *m_dc;
  
 private:
 	wxSize  m_ParentSize;
 
-	void Plot(piDC *dc, PlugIn_ViewPort *vp, wxColour color);
+	void Plot(pi_ocpnDC *dc, PlugIn_ViewPort *vp, wxColour color);
 
 
     void DrawLine( double x1, double y1, double x2, double y2,

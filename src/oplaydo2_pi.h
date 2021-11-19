@@ -43,7 +43,7 @@
 #include "piOverlayFactory.h"
 //#include "globals.h"
 
-#include "pidc.h"
+#include "pi_ocpndc.h"
 
 #include "config.h"
 #include <wx/dc.h>
@@ -59,7 +59,7 @@
 #define CALCULATOR_TOOL_POSITION    -1          // Request default positioning of toolbar tool
 
 class Dlg;
-class piDC;
+class pi_ocpnDC;
 
 class oplaydo2_pi : public opencpn_plugin_116
 {
@@ -104,7 +104,7 @@ public:
       bool RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp);
 	 
 
-	  piDC *m_oDC;
+	  pi_ocpnDC *m_oDC;
 	  Dlg               *m_pDialog;
 	  piOverlayFactory *m_pOverlayFactory;
 private:

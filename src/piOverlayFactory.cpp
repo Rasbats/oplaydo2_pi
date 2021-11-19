@@ -47,9 +47,9 @@
 #include "icons.h"
 
 
+
 #define FAILED_FILELIST_MSG_LEN 150
 
-class piDC;
 
 //static int s_multitexturing = 0;
 //static PFNGLACTIVETEXTUREARBPROC s_glActiveTextureARB = 0;
@@ -129,7 +129,7 @@ piOverlayFactory::~piOverlayFactory()
 }
 
 
-bool piOverlayFactory::RenderOverlay(piDC &dc, PlugIn_ViewPort &vp)
+bool piOverlayFactory::RenderOverlay(pi_ocpnDC &dc, PlugIn_ViewPort &vp)
 {
 	m_dc = &dc;	
 
@@ -193,7 +193,7 @@ void piOverlayFactory::DrawLine( double x1, double y1, double x2, double y2,
 }
 
 
-void piOverlayFactory::Plot(piDC *dc, PlugIn_ViewPort *vp, wxColour color) {	
+void piOverlayFactory::Plot(pi_ocpnDC *dc, PlugIn_ViewPort *vp, wxColour color) {	
 
 	wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_ITALIC,
 		wxFONTWEIGHT_NORMAL);

@@ -319,7 +319,8 @@ bool oplaydo2_pi::RenderOverlay(wxDC &dc, PlugIn_ViewPort *vp) {
        !m_pOverlayFactory)
             return false;
 
-  piDC pidc(dc);
+  pi_ocpnDC pidc = dc;
+  
   m_pOverlayFactory->RenderOverlay ( pidc, *vp );
 
   return true;
@@ -331,7 +332,7 @@ bool oplaydo2_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp) {
             return false;
  
   
-    piDC piDC;
+    pi_ocpnDC piDC;
     glEnable( GL_BLEND );
     piDC.SetVP(vp);
     
