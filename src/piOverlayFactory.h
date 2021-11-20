@@ -32,6 +32,11 @@ class PlugIn_ViewPort;
 class piDC;
 class wxDC;
 
+#ifdef __OCPN__ANDROID__
+#include <qopengl.h>
+#include "gl_private.h"
+#endif
+
 //----------------------------------------------------------------------------------------------------------
 //    Climatology Overlay Specification
 //----------------------------------------------------------------------------------------------------------
