@@ -37,11 +37,10 @@
 #ifdef __OCPN__ANDROID__
 #include <qopengl.h>
 #include "gl_private.h"
-#include "gl.h"
 #endif
 
-#ifdef USE_GLES2
-#include "GLES2/gl2.h"
+#ifdef USE_ANDROID_GLES2
+#include <gl2.h>
 #endif
 
 #include "oplaydo2_pi.h"
