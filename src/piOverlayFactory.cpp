@@ -37,6 +37,7 @@
 #ifdef __OCPN__ANDROID__
 #include <qopengl.h>
 #include "gl_private.h"
+#include "../libs/AndroidHeaders/gl.h"
 #endif
 
 #ifdef USE_GLES2
