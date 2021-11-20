@@ -26,11 +26,10 @@
 
 #include <list>
 #include <map>
-#include "pi_ocpndc.h"
 
 
 class PlugIn_ViewPort;
-class pi_ocpnDC;
+class piDC;
 class wxDC;
 
 //----------------------------------------------------------------------------------------------------------
@@ -65,7 +64,6 @@ class Dlg;
 class wxGLContext;
 class piOverlayFactory;
 
-
 class piOverlayFactory {
 public:
     piOverlayFactory( Dlg &dlg );
@@ -73,28 +71,26 @@ public:
 	
 	
 	void SetParentSize( int w, int h ) { m_ParentSize.SetWidth(w) ; m_ParentSize.SetHeight(h) ;}
-	bool RenderOverlay(pi_ocpnDC &dc, PlugIn_ViewPort &vp);
+	bool RenderOverlay(piDC &dc, PlugIn_ViewPort &vp);
 
-	pi_ocpnDC *m_dc;
-	wxFont font;
+	piDC *m_dc;
  
 private:
 	wxSize  m_ParentSize;
 
-	void Plot(pi_ocpnDC *dc, PlugIn_ViewPort *vp, wxColour color);
+	void Plot(piDC *dc, PlugIn_ViewPort *vp, wxColour color);
 
 
     void DrawLine( double x1, double y1, double x2, double y2,
                    const wxColour &color, double width );
-
-	void DrawNumbers(wxPoint p, double value, int settings,
-		wxColour back_color);
-
     void DrawCircle( double x, double y, double r, const wxColour &color, double width );
 
     bool CreateGLTexture(piOverlay &O, int setting, int month, PlugIn_ViewPort &vp);
     void DrawGLTexture( piOverlay &O1, piOverlay &O2,
                         double dpos, PlugIn_ViewPort &vp, double transparency);
+
+	void DrawNumbers(wxPoint p, double value, int settings,
+		wxColour back_color);
 
     Dlg &m_dlg;
 

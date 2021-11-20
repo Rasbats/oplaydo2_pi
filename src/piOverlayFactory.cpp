@@ -47,9 +47,9 @@
 #include "icons.h"
 
 
-
 #define FAILED_FILELIST_MSG_LEN 150
 
+class piDC;
 
 //static int s_multitexturing = 0;
 //static PFNGLACTIVETEXTUREARBPROC s_glActiveTextureARB = 0;
@@ -118,13 +118,7 @@ piOverlay::~piOverlay()
 piOverlayFactory::piOverlayFactory( Dlg &dlg )
     : m_dlg(dlg)
 {
-	
-#ifdef __WXQT__
-  font = GetOCPNGUIScaledFont_PlugIn(_T("Dialog"));
-#else
-  font = wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
-                          wxFONTWEIGHT_NORMAL);
-#endif
+    // make sure the user data directory exists
    
 
 }
@@ -135,7 +129,7 @@ piOverlayFactory::~piOverlayFactory()
 }
 
 
-bool piOverlayFactory::RenderOverlay(pi_ocpnDC &dc, PlugIn_ViewPort &vp)
+bool piOverlayFactory::RenderOverlay(piDC &dc, PlugIn_ViewPort &vp)
 {
 	m_dc = &dc;	
 
@@ -175,7 +169,7 @@ bool piOverlayFactory::RenderOverlay(pi_ocpnDC &dc, PlugIn_ViewPort &vp)
 	
 	
 	DrawLine(40, 40, 120, 120, myColour, 4);
-
+	
 	
     return true;
 }
@@ -193,14 +187,12 @@ void piOverlayFactory::DrawLine( double x1, double y1, double x2, double y2,
     m_dc->ConfigurePen();
 	m_dc->SetPen( wxPen(color, width ) );
 
-
+	wxFont font( 16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL );
     m_dc->SetFont( font );
-	//const wxString ttt = "testing";
-    //m_dc->DrawText(ttt, 150, 150);
-	wxPoint myPoint(150, 150);
-	wxColour myColour2 = wxColour("RED");
-	DrawNumbers(myPoint, 999, 0, myColour2);
-}
+
+    m_dc->DrawText("testing", 150, 150);
+
+	}
 
 
 void piOverlayFactory::DrawNumbers(wxPoint p, double value, int settings,
@@ -282,7 +274,8 @@ void piOverlayFactory::DrawNumbers(wxPoint p, double value, int settings,
 }
 
 
-void piOverlayFactory::Plot(pi_ocpnDC *dc, PlugIn_ViewPort *vp, wxColour color) {	
+
+void piOverlayFactory::Plot(piDC *dc, PlugIn_ViewPort *vp, wxColour color) {	
 
 	wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_ITALIC,
 		wxFONTWEIGHT_NORMAL);
