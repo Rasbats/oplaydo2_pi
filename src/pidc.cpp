@@ -1732,7 +1732,10 @@ void piDC::DrawText(const wxString &text, wxCoord x, wxCoord y) {
         glEnable(GL_BLEND);
         glEnable(GL_TEXTURE_2D);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+		#ifndef ANDROID
+          glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		#endif
 
 #ifndef USE_ANDROID_GLES2
         glPushMatrix();
