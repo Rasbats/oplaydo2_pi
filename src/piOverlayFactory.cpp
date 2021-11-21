@@ -40,7 +40,7 @@
 #endif
 
 #ifdef USE_ANDROID_GLES2
-#include <gl2.h>
+#include "GLES2/gl2.h"
 #endif
 
 #include "oplaydo2_pi.h"
