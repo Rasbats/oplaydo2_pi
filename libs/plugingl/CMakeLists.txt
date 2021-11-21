@@ -18,7 +18,6 @@ set(SRC
   include/pi_shaders.h
   include/qtstylesheet.h
   include/TexFont.h
-  include/gl_private.h
 )   
 
 
