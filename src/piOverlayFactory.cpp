@@ -163,12 +163,29 @@ bool piOverlayFactory::RenderOverlay(piDC &dc, PlugIn_ViewPort &vp)
         GetCanvasPixLL( &vp, &p, (it)->myLat, (it)->myLon);
 		GetCanvasPixLL( &vp, &pn, (it)->myNextLat, (it)->myNextLon);
 
-        DrawLine(p.x, p.y, pn.x, pn.y, myColour, 4);		
+        DrawLine(p.x, p.y, pn.x, pn.y, myColour, 4);	
+
+		
+
+		
+
+
 	}
 	
 	
 	
 	DrawLine(40, 40, 120, 120, myColour, 4);
+
+	polyPoints[0] = wxPoint(48, 160);
+	polyPoints[1] = wxPoint(108, 160);
+	polyPoints[2] = wxPoint(108, 220);
+	polyPoints[3] = wxPoint(48, 160);
+
+	m_dc->ConfigurePen();
+	m_dc->SetPen( wxPen(myColour, 1 ));
+	m_dc->ConfigureBrush();
+    m_dc->SetBrush(myColour);
+	m_dc->DrawPolygon(4, polyPoints, 0, 0, 1.0, 0);
 	
 	
     return true;
@@ -306,7 +323,10 @@ void piOverlayFactory::Plot(piDC *dc, PlugIn_ViewPort *vp, wxColour color) {
         GetCanvasPixLL( vp, &p, (it)->myLat, (it)->myLon);
 		GetCanvasPixLL( vp, &pn, (it)->myNextLat, (it)->myNextLon);
 
-        DrawLine(p.x, p.y, pn.x, pn.y, myColour, 4);		
+        DrawLine(p.x, p.y, pn.x, pn.y, myColour, 4);	
+
+
+
 	}
 	
 	
@@ -314,3 +334,4 @@ void piOverlayFactory::Plot(piDC *dc, PlugIn_ViewPort *vp, wxColour color) {
 	DrawLine(40, 40, 120, 120, myColour, 4);
 
 }
+

@@ -79,6 +79,8 @@ public:
 	bool RenderOverlay(piDC &dc, PlugIn_ViewPort &vp);
 
 	piDC *m_dc;
+
+	wxPoint polyPoints[4];
  
 private:
 	wxSize  m_ParentSize;
@@ -96,6 +98,7 @@ private:
 
 	void DrawNumbers(wxPoint p, double value, int settings,
 		wxColour back_color);
+
 
     Dlg &m_dlg;
 
